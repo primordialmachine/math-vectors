@@ -1,0 +1,187 @@
+\documentclass[oneside]{book}
+
+\input{common}
+
+
+\SetOrganization{Primordial Machine's}
+\SetLibraryName{Vectors Library}
+
+\SetLibraryIncludeFileName{include.hpp}
+\SetLibraryIncludesDirectoryPath{primordialmachine/vectors/\newline\$(PlatformTarget.toLower())/\$(Configuration.toLower())/includes}
+
+\SetLibraryIncludeDirectiveFilePath{primordialmachine/vectors/include.hpp}
+
+\SetLibraryStaticLibrariesDirectoryPath{primordialmachine/vectors/\newline\$(PlatformTarget.toLower())/\$(Configuration.toLower())/libraries}
+\SetLibraryStaticLibraryFileName{vectors.lib}
+
+
+\SetLibraryVersion{v1.0}
+\SetLibraryRepository{https://github.com/primordialmachine/vectors}
+\SetAuthor{Michael Heilmann}
+\SetEmail{michaelheilmann@primordialmachine.com}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\chapter{Synopsis}
+C++ 17 library providing floating point vectors over $n$ dimensions.
+The library is made available publicly on
+\href{\GetLibraryRepository}{Github}
+under the
+\href{\GetLibraryRepository/blob/master/LICENSE}{MIT License}.
+
+\chapter{Limitations and Restrictions}
+The library officially only supports Visual Studio 2017 and Windows 10.
+
+\chapter{Introductory example}
+\textit{\color{orange}This library does not provide any examples yet.}
+%Examples are located in the \href{\GetLibraryRepository/blob/master/examples}{examples} directory.
+
+\include{building_visual_studio_2017}
+
+\chapter{Library Interface Documentation}
+
+\section{\texttt{namespace primordialmachine}}
+The namespace this library is adding its declarations/definitions to.
+The added namespace elements are documented below.
+
+\input{binary_functor}
+
+\section{\texttt{struct vector\_traits}}
+\begin{verbatim}
+template<typename ELEMENT_TYPE, typename NUMBER_OF_ELEMENTS>
+struct vector_traits;
+\end{verbatim}
+
+\section{\texttt{struct vector}}
+\begin{verbatim}
+template<typename TRAITS, typename ENABLED = void>
+struct vector;
+\end{verbatim}
+
+\subsection{Members}
+
+\subsection{Non Members}
+\subsubsection{\texttt{struct dot\_product\_functor}}
+The base of partial specializations of this functor is given by
+\begin{verbatim}
+template<typename LEFT_OPERAND, typename RIGHT_OPERAND, typename ENABLED = void>
+struct dot_product_functor;
+\end{verbatim}
+A \textit{$0$-BinaryFunctor} representing the dot product $\texttt{left\_operand} \cdot \texttt{right\_operand}$.\newline
+
+\noindent{}This libray provides for all \texttt{vector} specializations provided by this library
+where \texttt{LEFT\_OPERAND} and \texttt{RIGHT\_OPERAND} are of the same type \texttt{vector\textlangle TRAITS \textrangle}.
+A possible implementation is
+\begin{verbatim}
+template<typename LEFT_OPERAND_TRAITS, typename RIGHT_OPERAND_TRAITS>
+struct dot_product_functor<vector<LEFT_OPERAND_TRAITS>,
+                           vector<RIGHT_OPERAND_TRAITS>,
+                           std::enable_if_t</* implementation */>>
+{
+  using left_operand_type = vector<LEFT_OPERAND_TRAITS>;
+  using right_operand_type = vector<RIGHT_OPERAND_TRAITS>;
+  auto operator()(const left_operand_type& u, const right_operand_type& v) const
+  { /* implementation */ }
+};
+\end{verbatim}
+
+
+\subsubsection{\texttt{struct cross\_product\_functor}}
+\begin{verbatim}
+template<typename LEFT_OPERAND, typename RIGHT_OPERAND, typename ENABLED = void>
+struct cross_product_functor;
+\end{verbatim}
+A \textit{$0$-BinaryFunctor} representing the cross product $\texttt{left\_operand} \times \texttt{right\_operand}$.\newline
+
+\noindent{}This libray provides specializations for all \texttt{vector} specializations provided by this library
+where \texttt{LEFT\_OPERAND} and \texttt{RIGHT\_OPERAND} are of the same type \texttt{vector\textlangle TRAITS \textrangle}
+and \texttt{TRAITS::dimensionality} is $3$. A possible implementation is
+\begin{verbatim}
+template<typename LEFT_OPERAND_TRAITS, typename RIGHT_OPERAND_TRAITS>
+struct cross_product_functor<vector<LEFT_OPERAND_TRAITS>,
+                             vector<RIGHT_OPERAND_TRAITS>,
+                             std::enable_if_t</* implementation */>>
+{
+  using left_operand_type = vector<LEFT_OPERAND_TRAITS>;
+  using right_operand_type = vector<RIGHT_OPERAND_TRAITS>;
+  auto operator()(const left_operand_type& u, const right_operand_type& v) const
+  { /* implementation */ }
+};
+\end{verbatim}
+
+\subsubsection{\texttt{square\_euclidean\_norm\_functor}}
+An \textit{$0$-UnaryFunctor} representing the square of the Euclidean norm $\left\|\texttt{operand}\right\|^2_2$.\newline
+
+\noindent{}This libray provides specializations for all \texttt{vector} specializations provided by this library.
+A possible implementation is
+\begin{verbatim}
+template<typename OPERAND_TRAITS>
+struct squared_euclidean_norm_functor<vector<OPERAND_TRAITS>,
+                                      std::enable_if_t</* implementation */>>
+{
+  using operand_type = vector<OPERAND_TRAITS>;
+  auto operator()(const operand_type& v) const
+  { /* implementation */ }
+};
+\end{verbatim}
+
+\subsubsection{\texttt{euclidean\_norm\_functor}}
+An \textit{$0$-UnaryFunctor} representing the Euclidean norm $\left\|\texttt{operand}\right\|_2$.\newline
+
+\noindent{}This libray provides specializations for all \texttt{vector} specializations provided by this library.
+A possible implementation is
+\begin{verbatim}
+template<typename OPERAND_TRAITS>
+struct euclidean_norm_functor<vector<OPERAND_TRAITS>,
+                              std::enable_if_t</* implementation */>>
+{
+  using operand_type = vector<OPERAND_TRAITS>;
+  auto operator()(const operand_type& v) const
+  { /* implementation */ }
+};
+\end{verbatim}
+
+\subsubsection{\texttt{normalize\_functor}}
+An \textit{$0$-UnaryFunctor} representing the normalization $\frac{\texttt{operand}}{\left\|\texttt{operand}\right\|_2}$.\newline
+
+\noindent{}This libray provides specializations for all \texttt{vector} specializations provided by this library.
+A possible implementation is
+\begin{verbatim}
+template<typename OPERAND_TRAITS>
+struct normalize_functor<vector<OPERAND_TRAITS>,
+                         std::enable_if_t</* implementation */>>
+{
+  using operand_type = vector<OPERAND_TRAITS>;
+  auto operator()(const operand_type& v) const
+  { /* implementation */ }
+};
+\end{verbatim}
+
+\subsubsection{\texttt{are\_orthogonal\_functor}}
+An \textit{$1$-BinaryFunctor} computing wether two vectors are orthogonal.\newline
+\begin{verbatim}
+template<typename LEFT_OPERAND, typename RIGHT_OPERAND, typename EQUAL_TO, typename ENABLED = void>
+struct are_orthogonal_functor;
+\end{verbatim}
+
+\noindent{}This libray provides specializations for all \texttt{vector} specializations provided by this library.
+A possible implementation is
+\begin{verbatim}
+template<typename LEFT_OPERAND_TRAITS,
+         typename RIGHT_OPERAND_TRAITS,
+         typename EQUAL_TO>
+struct are_orthogonal_functor<vector<LEFT_OPERAND_TRAITS>,
+                              vector<RIGHT_OPERAND_TRAITS>,
+                              EQUAL_TO,
+                              std::enable_if_t</* implementation */>>
+{
+  using left_operand_type = vector<LEFT_OPERAND_TRAITS>;
+  using right_operand_type = vector<RIGHT_OPERAND_TRAITS>;
+  using equal_to_type = EQUAL_TO;
+  bool operator()(const left_operand_type& u, const right_operand_type& v, equal_to_type equal_to) const
+  { /* implementation */ }
+};
+\end{verbatim}
+
+\end{document}

@@ -1,0 +1,27 @@
+% Copyright (c) 2018 Michael Heilmann. All rights reserved.
+\chapter{Building under Visual Studio 2017}
+\begin{enumerate}
+\item Open the solution \texttt{solution.sln} in Microsoft Visual Studio 2017.
+\item Batch build everything.
+\item The folder \texttt{packages} contains the distribution of the library i.e. include files and the
+      static libraries for
+  \begin{enumerate}
+    \item the platform targets \texttt{x86} and \texttt{x64} and
+    \item configurations \texttt{Release} and \texttt{Debug}.
+  \end{enumerate}
+\item Copy the contents of the \verb+packages+ folder into a directory. Let
+      \verb+[library home]+ be a placeholder denoting the path by which that folder
+      can be referenced from your project.
+\item Add
+  \begin{enumerate}
+    \item the include path
+\texttt{[library home]/\GetLibraryIncludesDirectoryPath}
+	and
+    \item the library path
+\texttt{[library home]/\GetLibraryStaticLibrariesDirectoryPath}
+    to your project.
+\end{enumerate}
+\item Link your project with the library \texttt{\GetLibraryStaticLibraryFileName}.
+\item Add the include directive \texttt{\#include "{}\GetLibraryIncludeDirectiveFilePath"{}} where appropriate.
+\item You can now use the functionality provided by the library.
+\end{enumerate}
