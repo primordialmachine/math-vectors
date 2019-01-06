@@ -1,7 +1,32 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Primordial Machine's Vectors Library
+% Copyright (C) 2017-2019 Michael Heilmann
+%
+% This software is provided 'as-is', without any express or implied warranty.
+% In no event will the authors be held liable for any damages arising from the
+% use of this software.
+%
+% Permission is granted to anyone to use this software for any purpose,
+% including commercial applications, and to alter it and redistribute it
+% freely, subject to the following restrictions:
+%
+% 1. The origin of this software must not be misrepresented;
+%    you must not claim that you wrote the original software.
+%    If you use this software in a product, an acknowledgment
+%    in the product documentation would be appreciated but is not required.
+%
+% 2. Altered source versions must be plainly marked as such,
+%    and must not be misrepresented as being the original software.
+%
+% 3. This notice may not be removed or altered from any source distribution.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \documentclass[oneside]{book}
 
 \input{common}
-
+\setlength{\parindent}{0pt} % Disable paragraph indention.
 
 \SetOrganization{Primordial Machine's}
 \SetLibraryName{Vectors Library}
@@ -14,15 +39,27 @@
 \SetLibraryStaticLibrariesDirectoryPath{primordialmachine/vectors/\newline\$(PlatformTarget.toLower())/\$(Configuration.toLower())/libraries}
 \SetLibraryStaticLibraryFileName{vectors.lib}
 
-
 \SetLibraryVersion{v1.0}
 \SetLibraryRepository{https://github.com/primordialmachine/vectors}
 \SetAuthor{Michael Heilmann}
 \SetEmail{michaelheilmann@primordialmachine.com}
 
+\SetDocumentType{User Manual}
+
 \begin{document}
+
+\frontmatter
+
+\begin{titlepage}
 \maketitle
+\end{titlepage}
+
 \tableofcontents
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\pagenumbering{gobble}
+
+\mainmatter
+
 \chapter{Synopsis}
 C++ 17 library providing floating point vectors over $n$ dimensions.
 The library is made available publicly on
@@ -37,7 +74,7 @@ The library officially only supports Visual Studio 2017 and Windows 10.
 \textit{\color{orange}This library does not provide any examples yet.}
 %Examples are located in the \href{\GetLibraryRepository/blob/master/examples}{examples} directory.
 
-\include{building_visual_studio_2017}
+\input{building_visual_studio_2017}
 
 \chapter{Library Interface Documentation}
 
@@ -45,7 +82,7 @@ The library officially only supports Visual Studio 2017 and Windows 10.
 The namespace this library is adding its declarations/definitions to.
 The added namespace elements are documented below.
 
-\input{binary_functor}
+\input{functors}
 
 \section{\texttt{struct vector\_traits}}
 \begin{verbatim}
@@ -62,126 +99,258 @@ struct vector;
 \subsection{Members}
 
 \subsection{Non Members}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{operator+ (binary, vector vector)}
+\begin{verbatim}
+template<typename U, typename V>
+typename binary_plus_functor<vector<U>, vector<V>>::result_type
+operator+(const vector<U>& u, const vector<V>& v)
+{ return binary_plus_functor<vector<U>, vector<V>>()(u, v); }
+\end{verbatim}
+This library provides a specializations for \texttt{vector\textlangle U\textrangle}
+and \texttt{vector\textlangle V\textrangle} where
+\begin{enumerate}
+	\item \texttt{U::number\_of\_elements} is equal to \texttt{V::number\_of\_elements} and
+	\item \texttt{U::element\_type} and \texttt{V::element\_type} are floating point types.
+\end{enumerate}
+
+\subsubsection{operator+ (unary, vector)}
+\begin{verbatim}
+template<typename V>
+typename unary_plus_functor<vector<V>>::result_type
+operator+(const vector<V>& v)
+{ return unary_plus_functor<vector<V>>()(v); }
+\end{verbatim}
+
+\subsubsection{operator+= (vector vector)}
+\begin{verbatim}
+template<typename U, typename V>
+auto operator-=(vector<U>& u, const vector<V>& v)
+{
+   u = u + v;
+   return u;
+}
+\end{verbatim}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{operator- (binary, vector vector)}
+\begin{verbatim}
+template<typename U, typename V>
+typename binary_minus_functor<vector<U>, vector<V>>::result_type
+operator-(const vector<U>& u, const vector<V>& v)
+{ return binary_minus_functor<vector<U>, vector<V>>()(u, v); }
+\end{verbatim}
+This library provides a specializations for \texttt{vector\textlangle U\textrangle}
+and \texttt{vector\textlangle V\textrangle} where
+\begin{enumerate}
+	\item \texttt{U::number\_of\_elements} is equal to \texttt{V::number\_of\_elements} and
+	\item \texttt{U::element\_type} and \texttt{V::element\_type} are floating point types.
+\end{enumerate}
+
+\subsubsection{operator- (unary, vector)}
+\begin{verbatim}
+template<typename V>
+typename unary_minus_functor<vector<V>>::result_type
+operator-(const vector<V>& v)
+{ return unary_minus_functor<vector<V>>()(v); }
+\end{verbatim}
+
+\subsubsection{operator-= (vector vector}
+\begin{verbatim}
+template<typename U, typename V>
+auto&
+operator-=(vector<U>& u, const vector<V>& v)
+{
+   u = u - v;
+   return u;
+}
+\end{verbatim}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{operator* (binary, vector vector)}
+Computes the sum of two vectors.
+A possible implementation is
+\begin{verbatim}
+template<typename U, typename V>
+typename binary_star_functor<vector<U>, vector<V>>::result_type
+operator*(const vector<U>& u, const vector<V>& v)
+{ return binary_star_functor<vector<U>, vector<V>>()(u, v); }
+\end{verbatim}
+This library provides a specializations for \texttt{vector\textlangle U\textrangle}
+and \texttt{vector\textlangle V\textrangle} where
+\begin{enumerate}
+	\item \texttt{U::number\_of\_elements} is equal to \texttt{V::number\_of\_elements} and
+	\item \texttt{U::element\_type} and \texttt{V::element\_type} are floating point types.
+\end{enumerate}
+
+\subsubsection{operator*= (vector vector)}
+\begin{verbatim}
+template<typename U, typename V>
+auto&
+operator*=(vector<U>& u, const vector<V>& v)
+{
+   u = u * v;
+   return u;
+}
+\end{verbatim}
+
+\subsubsection{operator* (binary, vector scalar)}
+\begin{verbatim}
+template<typename V, typename S>
+typename binary_star_functor<vector<V>, S>::result_type
+operator*(const vector<V>& v, S s)
+{ return binary_star_functor<vector<V>, S>()(v, s); }
+\end{verbatim}
+This library provides a specializations for \texttt{vector\textlangle V\textrangle}
+and \texttt{S} where    \texttt{V::element\_type} and \texttt{S} are floating point
+types.
+
+\subsubsection{operator*= (vector scalar)}
+\begin{verbatim}
+template<typename V, typename S>
+auto&
+operator*=(vector<V>& v, S s)
+{
+   v = v * s;
+   return v;
+}
+\end{verbatim}
+
+\subsubsection{operator* (scalar vector)}
+\begin{verbatim}
+template<typename S, typename V>
+auto
+operator*(S s, vector<V>& v)
+{
+   return s * v;
+}
+\end{verbatim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{operator/ (binary, vector scalar)}
+\begin{verbatim}
+template<typename V, typename S>
+typename binary_slash_functor<vector<V>, S>::result_type
+operator/(const vector<V>& v, S s)
+{ return binary_slash_functor<vector<V>, S>()(v, s); }
+\end{verbatim}
+This library provides a specializations for \texttt{vector\textlangle V\textrangle}
+and \texttt{S} where    \texttt{V::element\_type} and \texttt{S} are floating point
+types.
+
+\subsubsection{operator/= (vector scalar)}
+\begin{verbatim}
+template<typename V, typename S>
+auto&
+operator/=(vector<V>& v, S s)
+{
+   v = v / s;
+   return v;
+}
+\end{verbatim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{\texttt{struct dot\_product\_functor}}
-The base of partial specializations of this functor is given by
+a \textit{BinaryFunctorBase} computing the dot product of two vectors.
+A possible implementation is given by
 \begin{verbatim}
 template<typename LEFT_OPERAND, typename RIGHT_OPERAND, typename ENABLED = void>
 struct dot_product_functor;
 \end{verbatim}
-A \textit{$0$-BinaryFunctor} representing the dot product $\texttt{left\_operand} \cdot \texttt{right\_operand}$.\newline
 
-\noindent{}This libray provides for all \texttt{vector} specializations provided by this library
-where \texttt{LEFT\_OPERAND} and \texttt{RIGHT\_OPERAND} are of the same type \texttt{vector\textlangle TRAITS \textrangle}.
-A possible implementation is
-\begin{verbatim}
-template<typename LEFT_OPERAND_TRAITS, typename RIGHT_OPERAND_TRAITS>
-struct dot_product_functor<vector<LEFT_OPERAND_TRAITS>,
-                           vector<RIGHT_OPERAND_TRAITS>,
-                           std::enable_if_t</* implementation */>>
-{
-  using left_operand_type = vector<LEFT_OPERAND_TRAITS>;
-  using right_operand_type = vector<RIGHT_OPERAND_TRAITS>;
-  auto operator()(const left_operand_type& u, const right_operand_type& v) const
-  { /* implementation */ }
-};
-\end{verbatim}
+This library provides \textit{BinaryFunctor} specializations of this \textit{BinaryFunctorBase}
+where \texttt{LEFT\_OPERAND} and \texttt{RIGHT\_OPERAND} are specializations   of \texttt{vector} with   the
+same number of elements $N$. The result type \texttt{result\_type} is\newline
+\texttt{std::common\_type\_t\textlangle LEFT\_OPERAND\_TRAITS::element\_type, RIGHT\_OPERAND\_TRAITS::element\_type\textrangle}\newline
+ where \texttt{LEFT\_OPERAND\_TRAITS} and \texttt{RIGHT\_OPERAND\_TRAITS} are the traits of these specializations.
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{\texttt{struct cross\_product\_functor}}
+A \textit{BinaryFunctorBase} computing the cross product of two vectors.
+A possible implementation is given by
 \begin{verbatim}
 template<typename LEFT_OPERAND, typename RIGHT_OPERAND, typename ENABLED = void>
 struct cross_product_functor;
 \end{verbatim}
-A \textit{$0$-BinaryFunctor} representing the cross product $\texttt{left\_operand} \times \texttt{right\_operand}$.\newline
 
-\noindent{}This libray provides specializations for all \texttt{vector} specializations provided by this library
-where \texttt{LEFT\_OPERAND} and \texttt{RIGHT\_OPERAND} are of the same type \texttt{vector\textlangle TRAITS \textrangle}
-and \texttt{TRAITS::dimensionality} is $3$. A possible implementation is
-\begin{verbatim}
-template<typename LEFT_OPERAND_TRAITS, typename RIGHT_OPERAND_TRAITS>
-struct cross_product_functor<vector<LEFT_OPERAND_TRAITS>,
-                             vector<RIGHT_OPERAND_TRAITS>,
-                             std::enable_if_t</* implementation */>>
-{
-  using left_operand_type = vector<LEFT_OPERAND_TRAITS>;
-  using right_operand_type = vector<RIGHT_OPERAND_TRAITS>;
-  auto operator()(const left_operand_type& u, const right_operand_type& v) const
-  { /* implementation */ }
-};
-\end{verbatim}
+This library provides \textit{BinaryFunctor} specializations of this \textit{BinaryFunctorBase}
+where \texttt{LEFT\_OPERAND} and \texttt{RIGHT\_OPERAND} are specializations of \texttt{vector} with   the
+same number of elements $3$. The result type \texttt{result\_type} is  \texttt{vector\textlangle RESULT\_TRAITS\textrangle}
+where\newline
+\texttt{
+RESULT\_TRAITS:=vector\_traits\textlangle std::common\_type\_t\textlangle{}LEFT\_OPERAND\_TRAITS::element\_type,\newline%
+\hphantom{RESULT\_TRAITS:=vector\_traits\textlangle std::common\_type\_t\textlangle}RIGHT\_OPERAND\_TRAITS::element\_type\textrangle,\newline%
+\hphantom{RESULT\_TRAITS:=vector\_traits\textlangle}3\textrangle}.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{\texttt{square\_euclidean\_norm\_functor}}
-An \textit{$0$-UnaryFunctor} representing the square of the Euclidean norm $\left\|\texttt{operand}\right\|^2_2$.\newline
-
-\noindent{}This libray provides specializations for all \texttt{vector} specializations provided by this library.
-A possible implementation is
+A \textit{UnaryFunctorBase} computing the squared Euclidean norm of a vector.
+A possible implementation is given by
 \begin{verbatim}
-template<typename OPERAND_TRAITS>
-struct squared_euclidean_norm_functor<vector<OPERAND_TRAITS>,
-                                      std::enable_if_t</* implementation */>>
-{
-  using operand_type = vector<OPERAND_TRAITS>;
-  auto operator()(const operand_type& v) const
-  { /* implementation */ }
-};
+template<typename OPERAND, typename ENABLED = void>
+struct square_euclidean_norm_functor;
 \end{verbatim}
 
+This library provides \textit{UnaryFunctor} specializations of this \textit{UnaryFunctorBase}
+where \texttt{OPERAND} is specializations of \texttt{vector}. The result type        \texttt{
+result\_type} is \texttt{OPERAND\_TRAITS::element\_type\textrangle}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{\texttt{euclidean\_norm\_functor}}
-An \textit{$0$-UnaryFunctor} representing the Euclidean norm $\left\|\texttt{operand}\right\|_2$.\newline
-
-\noindent{}This libray provides specializations for all \texttt{vector} specializations provided by this library.
-A possible implementation is
+A \textit{UnaryFunctorBase} computing the Euclidean norm of a vector.
+A possible implementation is given by
 \begin{verbatim}
-template<typename OPERAND_TRAITS>
-struct euclidean_norm_functor<vector<OPERAND_TRAITS>,
-                              std::enable_if_t</* implementation */>>
-{
-  using operand_type = vector<OPERAND_TRAITS>;
-  auto operator()(const operand_type& v) const
-  { /* implementation */ }
-};
+template<typename OPERAND, typename ENABLED = void>
+struct euclidean_norm_functor;
 \end{verbatim}
 
+This library provides \textit{UnaryFunctor} specializations of this \textit{UnaryFunctorBase}
+where \texttt{OPERAND} is specializations of \texttt{vector}. The result type        \texttt{
+result\_type} is \texttt{OPERAND\_TRAITS::element\_type}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{\texttt{normalize\_functor}}
-An \textit{$0$-UnaryFunctor} representing the normalization $\frac{\texttt{operand}}{\left\|\texttt{operand}\right\|_2}$.\newline
-
-\noindent{}This libray provides specializations for all \texttt{vector} specializations provided by this library.
-A possible implementation is
+A \textit{UnaryFunctorBase} computing the normalized vector of a vector.
+A possible implementation is given by
 \begin{verbatim}
-template<typename OPERAND_TRAITS>
-struct normalize_functor<vector<OPERAND_TRAITS>,
-                         std::enable_if_t</* implementation */>>
-{
-  using operand_type = vector<OPERAND_TRAITS>;
-  auto operator()(const operand_type& v) const
-  { /* implementation */ }
-};
+template<typename OPERAND, typename NORM, typename ENABLED = void>
+struct normalize_functor;
 \end{verbatim}
+\texttt{NORM} is an additional template argument denoting the type of norm functor.\newline
 
+This library provides \textit{UnaryFunctor} specializations of this \textit{UnaryFunctorBase} where
+\texttt{OPERAND} is specializations of \texttt{vector}. The result type \texttt{result\_type}    is
+\texttt{vector\textlangle RESULT\_TRAITS\textrangle} where \texttt{RESULT\_TRAITS}               is
+\texttt{OPERAND\_TRAITS}.\newline
+
+The \texttt{operator()} has a third parameter  \texttt{norm} which defaults to
+\texttt{euclidean\_norm\textlangle vector\textlangle RESULT\_TRAITS\textrangle
+\textrangle} through which any other norm can be passed.\newline
+
+\textit{\textcolor{orange}{The \textit{ParameterizedBinaryFunctor(Base)} concepts - like
+\texttt{normalize\_functor}       - subsumes the \textit{BinaryFunctor(Base)}  concepts.
+Add the \textit{ParameterizedBinaryFunctor(Base) concepts.}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{\texttt{are\_orthogonal\_functor}}
-An \textit{$1$-BinaryFunctor} computing wether two vectors are orthogonal.\newline
+A \textit{BinaryFunctorBase} computing if two vectors are orthogonal.
+A possible implementation is given by
 \begin{verbatim}
-template<typename LEFT_OPERAND, typename RIGHT_OPERAND, typename EQUAL_TO, typename ENABLED = void>
+template<typename OPERAND, typename NORM, typename EQUAL_TO, typename ENABLED = void>
 struct are_orthogonal_functor;
 \end{verbatim}
+\texttt{EQUAL\_TO} is an additional template argument denoting the type of an equal to functor.\newline
 
-\noindent{}This libray provides specializations for all \texttt{vector} specializations provided by this library.
-A possible implementation is
-\begin{verbatim}
-template<typename LEFT_OPERAND_TRAITS,
-         typename RIGHT_OPERAND_TRAITS,
-         typename EQUAL_TO>
-struct are_orthogonal_functor<vector<LEFT_OPERAND_TRAITS>,
-                              vector<RIGHT_OPERAND_TRAITS>,
-                              EQUAL_TO,
-                              std::enable_if_t</* implementation */>>
-{
-  using left_operand_type = vector<LEFT_OPERAND_TRAITS>;
-  using right_operand_type = vector<RIGHT_OPERAND_TRAITS>;
-  using equal_to_type = EQUAL_TO;
-  bool operator()(const left_operand_type& u, const right_operand_type& v, equal_to_type equal_to) const
-  { /* implementation */ }
-};
-\end{verbatim}
+This library provides \textit{UnaryFunctor} specializations of this \textit{UnaryFunctorBase}
+where \texttt{OPERAND} is specializations of \texttt{vector}. The result type        \texttt{
+result\_type} is \texttt{bool}.\newline
+
+The \texttt{operator()} has a third parameter \texttt{norm}   which accepts an
+\texttt{equal\_to\_functor\textlangle SCALAR, SCALAR\textrangle}         where
+\texttt{SCALAR} is \texttt{std::common\_type\_t                    \textlangle
+LEFT\_OPERAND\_TRAITS::element\_type,    RIGHT\_OPERAND\_TRAITS::element\_type
+\textrangle}.\newline
+
+\textit{\textcolor{orange}{The \textit{ParameterizedBinaryFunctor(Base)} concepts - like
+\texttt{are\_orthogonal\_functor} - subsumes the \textit{BinaryFunctor(Base)}  concepts.
+Add the \textit{ParameterizedBinaryFunctor(Base) concepts.}}}
 
 \end{document}
