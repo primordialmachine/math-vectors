@@ -53,7 +53,7 @@ operator/(vector<TRAITS> const& v, SCALAR s)
 }
 
 template<typename TRAITS, typename SCALAR>
-auto& /*TODO: Does this return a reference? Is this the best method?*/
+auto
 operator/=(vector<TRAITS>& u, SCALAR s)
 {
   u = u / s;

@@ -45,7 +45,7 @@ auto operator*(vector<TRAITS> const& u, vector<TRAITS> const& v)
 }
 
 template<typename TRAITS>
-auto& /*TODO: Does this return a reference? Is this the best method?*/
+auto
 operator*=(vector<TRAITS>& u, const vector<TRAITS>& v)
 {
   u = u * v;

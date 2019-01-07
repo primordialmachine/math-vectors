@@ -73,7 +73,8 @@ struct binary_star_functor<scalar_generator_functor<SCALAR>,
 {};
 
 template<typename TRAITS, typename SCALAR>
-auto operator*(SCALAR s, vector<TRAITS> const& v)
+auto
+operator*(SCALAR s, vector<TRAITS> const& v)
 {
   using g_type = scalar_generator_functor<SCALAR>;
   using v_type = vector<TRAITS>;
