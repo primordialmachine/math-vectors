@@ -121,11 +121,14 @@ typename unary_plus_functor<vector<V>>::result_type
 operator+(const vector<V>& v)
 { return unary_plus_functor<vector<V>>()(v); }
 \end{verbatim}
+This library provides a specializations for \texttt{vector\textlangle V\textrangle}
+where \texttt{V::element\_type} is a floating point type.
 
 \subsubsection{operator+= (vector vector)}
 \begin{verbatim}
 template<typename U, typename V>
-auto operator-=(vector<U>& u, const vector<V>& v)
+auto
+operator-=(vector<U>& u, const vector<V>& v)
 {
    u = u + v;
    return u;
@@ -153,11 +156,13 @@ typename unary_minus_functor<vector<V>>::result_type
 operator-(const vector<V>& v)
 { return unary_minus_functor<vector<V>>()(v); }
 \end{verbatim}
+This library provides a specializations for \texttt{vector\textlangle V\textrangle}
+where \texttt{V::element\_type} is a floating point type.
 
-\subsubsection{operator-= (vector vector}
+\subsubsection{operator-= (vector vector)}
 \begin{verbatim}
 template<typename U, typename V>
-auto&
+auto
 operator-=(vector<U>& u, const vector<V>& v)
 {
    u = u - v;
@@ -184,7 +189,7 @@ and \texttt{vector\textlangle V\textrangle} where
 \subsubsection{operator*= (vector vector)}
 \begin{verbatim}
 template<typename U, typename V>
-auto&
+auto
 operator*=(vector<U>& u, const vector<V>& v)
 {
    u = u * v;
@@ -206,7 +211,7 @@ types.
 \subsubsection{operator*= (vector scalar)}
 \begin{verbatim}
 template<typename V, typename S>
-auto&
+auto
 operator*=(vector<V>& v, S s)
 {
    v = v * s;
@@ -239,7 +244,7 @@ types.
 \subsubsection{operator/= (vector scalar)}
 \begin{verbatim}
 template<typename V, typename S>
-auto&
+auto
 operator/=(vector<V>& v, S s)
 {
    v = v / s;
@@ -295,7 +300,7 @@ result\_type} is \texttt{OPERAND\_TRAITS::element\_type\textrangle}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{\texttt{euclidean\_norm\_functor}}
-A \textit{UnaryFunctorBase} computing the Euclidean norm of a vector.
+An \textit{UnaryFunctorBase} computing the Euclidean norm of a vector.
 A possible implementation is given by
 \begin{verbatim}
 template<typename OPERAND, typename ENABLED = void>
