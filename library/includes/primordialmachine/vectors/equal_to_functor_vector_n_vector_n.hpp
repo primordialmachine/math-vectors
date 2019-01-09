@@ -30,16 +30,15 @@
 
 namespace primordialmachine {
 
-template<typename TRAITS>
-struct equal_to_functor<vector<TRAITS>, vector<TRAITS>, void>
+template<typename V>
+struct equal_to_functor<V, V, std::enable_if_t<is_vector<V>::value>>
 {
-  using left_operand_type = vector<TRAITS>;
-  using right_operand_type = vector<TRAITS>;
+  using left_operand_type = V;
+  using right_operand_type = V;
   using result_type = bool;
   bool operator()(const left_operand_type& a, const right_operand_type& b) const
   {
-    return impl(a, b, std::make_index_sequence<TRAITS::dimensionality>());
-    return true;
+    return impl(a, b, std::make_index_sequence<V::traits_type::dimensionality>());
   }
 
   template<std::size_t... N>
@@ -47,17 +46,10 @@ struct equal_to_functor<vector<TRAITS>, vector<TRAITS>, void>
                       const right_operand_type& b,
                       std::index_sequence<N...>) const
   {
-    auto op = equal_to_functor<typename TRAITS::element_type,
-                               typename TRAITS::element_type>();
+    auto op = equal_to_functor<typename V::traits_type::element_type,
+                               typename V::traits_type::element_type>();
     return ((op(a(N), b(N))) && ...);
   }
 };
-
-template<typename TRAITS>
-auto
-operator==(vector<TRAITS> const& u, vector<TRAITS> const& v)
-{
-  return equal_to_functor<vector<TRAITS>, vector<TRAITS>>()(u, v);
-}
 
 } // namespace primordialmachine

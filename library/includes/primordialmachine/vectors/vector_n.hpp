@@ -59,8 +59,15 @@ namespace primordialmachine {
                    CONSTRUCTOR_CONDITION_2()>
 
 template<typename TRAITS>
+struct is_vector<vector<TRAITS>>
+{
+  static constexpr bool value = true;
+};
+
+template<typename TRAITS>
 struct vector<TRAITS, STRUCT_CONDITION()>
 {
+  using traits_type = TRAITS;
   using element_type = typename TRAITS::element_type; /*TODO: Remove this.*/
   static constexpr size_t dimensionality =
     TRAITS::dimensionality; /*TODO: Remove this.*/

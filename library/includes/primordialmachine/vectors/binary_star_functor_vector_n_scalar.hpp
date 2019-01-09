@@ -30,26 +30,28 @@
 
 namespace primordialmachine {
 
-template<typename TRAITS, typename SCALAR>
-struct binary_star_functor<vector<TRAITS>,
-                           scalar_generator_functor<SCALAR>,
-                           void>
-  : elementwise_binary_functor<
-      vector<TRAITS>,
-      scalar_generator_functor<SCALAR>,
-      vector<TRAITS>,
-      TRAITS::dimensionality,
-      binary_star_functor<typename TRAITS::element_type, SCALAR>,
-      void>
-{};
-
-template<typename TRAITS, typename SCALAR>
-auto operator*(vector<TRAITS> const& v, SCALAR s)
+template<typename V, typename S>
+struct binary_star_functor<
+  V,
+  S,
+  std::enable_if_t<is_vector<V>::value && is_scalar<S>::value>>
 {
-  using v_type = vector<TRAITS>;
-  using g_type = scalar_generator_functor<SCALAR>;
-  return binary_star_functor<v_type, g_type>()(v, g_type(s));
-}
+  using functor = elementwise_binary_functor<
+    V,
+    scalar_generator_functor<S>,
+    V,
+    V::traits_type::dimensionality,
+    binary_star_functor<typename V::traits_type::element_type, S>,
+    void>;
+  using left_operand_type = V;
+  using right_operand_type = S;
+  using result_type = typename functor::result_type;
+  auto operator()(const left_operand_type& left_operand,
+                  const right_operand_type& right_operand) const
+  {
+    return functor()(left_operand, scalar_generator_functor<S>(right_operand));
+  }
+};
 
 template<typename TRAITS, typename SCALAR>
 auto& /*TODO: Does this return a reference? Is this the best method?*/
@@ -59,26 +61,27 @@ operator*=(vector<TRAITS>& v, SCALAR s)
   return v;
 }
 
-template<typename TRAITS, typename SCALAR>
-struct binary_star_functor<scalar_generator_functor<SCALAR>,
-                           vector<TRAITS>,
-                           void>
-  : elementwise_binary_functor<
-      scalar_generator_functor<SCALAR>,
-      vector<TRAITS>,
-      vector<TRAITS>,
-      TRAITS::dimensionality,
-      binary_star_functor<SCALAR, typename TRAITS::element_type>,
-      void>
-{};
-
-template<typename TRAITS, typename SCALAR>
-auto
-operator*(SCALAR s, vector<TRAITS> const& v)
+template<typename S, typename V>
+struct binary_star_functor<
+  S,
+  V,
+  std::enable_if_t<is_scalar<S>::value && is_vector<V>::value>>
 {
-  using g_type = scalar_generator_functor<SCALAR>;
-  using v_type = vector<TRAITS>;
-  return binary_star_functor<g_type, v_type>()(g_type(s), v);
-}
+  using functor = elementwise_binary_functor<
+    scalar_generator_functor<S>,
+    V,
+    V,
+    V::traits_type::dimensionality,
+    binary_star_functor<S, typename V::traits_type::element_type>,
+    void>;
+  using left_operand_type = S;
+  using right_operand_type = V;
+  using result_type = typename functor::result_type;
+  auto operator()(const left_operand_type& left_operand,
+                  const right_operand_type& right_operand) const
+  {
+    return functor()(scalar_generator_functor<S>(left_operand), right_operand);
+  }
+};
 
 } // namespace primordialmachine

@@ -30,20 +30,13 @@
 
 namespace primordialmachine {
 
-template<typename TRAITS>
-struct binary_plus_functor<vector<TRAITS>, vector<TRAITS>, void>
+template<typename V>
+struct binary_plus_functor<V, V, std::enable_if_t<is_vector<V>::value>>
   : public elementwise_binary_vector_functor<
-      TRAITS,
-      binary_plus_functor<typename TRAITS::element_type,
-                          typename TRAITS::element_type>>
+      typename V::traits_type,
+      binary_plus_functor<typename V::traits_type::element_type,
+                          typename V::traits_type::element_type>>
 {};
-
-template<typename TRAITS>
-auto
-operator+(vector<TRAITS> const& u, vector<TRAITS> const& v)
-{
-  return binary_plus_functor<vector<TRAITS>, vector<TRAITS>>()(u, v);
-}
 
 template<typename TRAITS>
 auto

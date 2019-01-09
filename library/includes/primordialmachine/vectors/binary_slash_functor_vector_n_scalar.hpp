@@ -30,27 +30,28 @@
 
 namespace primordialmachine {
 
-template<typename TRAITS, typename SCALAR>
-struct binary_slash_functor<vector<TRAITS>,
-                            scalar_generator_functor<SCALAR>,
-                            void>
-  : elementwise_binary_functor<
-      vector<TRAITS>,
-      scalar_generator_functor<SCALAR>,
-      vector<TRAITS>,
-      TRAITS::dimensionality,
-      binary_slash_functor<typename TRAITS::element_type, SCALAR>,
-      void>
-{};
-
-template<typename TRAITS, typename SCALAR>
-auto
-operator/(vector<TRAITS> const& v, SCALAR s)
+template<typename V, typename S>
+struct binary_slash_functor<
+  V,
+  S,
+  std::enable_if_t<is_vector<V>::value && is_scalar<S>::value>>
 {
-  using g_type = scalar_generator_functor<SCALAR>;
-  using v_type = vector<TRAITS>;
-  return binary_slash_functor<v_type, g_type>()(v, g_type(s));
-}
+  using functor = elementwise_binary_functor<
+    V,
+    scalar_generator_functor<S>,
+    V,
+    V::traits_type::dimensionality,
+    binary_slash_functor<typename V::traits_type::element_type, S>,
+    void>;
+  using left_operand_type = V;
+  using right_operand_type = S;
+  using result_type = typename functor::result_type;
+  auto operator()(const left_operand_type& left_operand,
+                  const right_operand_type& right_operand) const
+  {
+    return functor()(left_operand, scalar_generator_functor<S>(right_operand));
+  }
+};
 
 template<typename TRAITS, typename SCALAR>
 auto

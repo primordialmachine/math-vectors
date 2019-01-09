@@ -34,6 +34,36 @@ struct vector_traits
   static constexpr size_t dimensionality = DIMENSIONALITY;
 };
 
+template<typename SCALAR>
+struct is_scalar
+{
+  static constexpr bool value = false;
+};
+
+template<>
+struct is_scalar<float>
+{
+  static constexpr bool value = true;
+};
+
+template<>
+struct is_scalar<double>
+{
+  static constexpr bool value = true;
+};
+
+template<>
+struct is_scalar<long double>
+{
+  static constexpr bool value = true;
+};
+
+template<typename TYPE>
+struct is_vector
+{
+  static constexpr bool value = false;
+};
+
 template<typename TRAITS, typename ENABLED = void>
 struct vector;
 
