@@ -28,7 +28,7 @@
 #   Example: 'primordialmachine'.
 # PACKAGE_NAME
 #   The name of the published package.
-#   Example: 'arithmetic-functors'.
+#   Example: 'math-vectors'.
 # CONFIGURATION:
 #   The configuration.
 #   Example: 'release'.
@@ -37,10 +37,10 @@
 #   Example: 'x64'.
 # ARTIFACT_FILENAME
 #   The file name of the artifact.
-#   Example: 'primordialmachine-arithmetic-functors-release-x64.zip'.
+#   Example: 'primordialmachine-math-vectors-release-x64.zip'.
 # ARTIFACT_NAME
 #   The name of the artifact.
-#   Example: 'primordialmachine-arithmetic-functors-release-x64'.
+#   Example: 'primordialmachine-math-vectors-release-x64'.
 #
 # GOOGLETESTADAPTER_FILENAME
 #   The filename of the archive of GoogleTestAdapter.
@@ -73,8 +73,14 @@ configuration:
 
 environment:
   # Environment variables pertaining to the organization and package.
-  ORGANIZATION_NAME : "primordialmachine"
-  PACKAGE_NAME : "vectors"
+  # Organization (canonical) name.
+  ORGANIZATION_CANONICAL_NAME : "primordialmachine"
+  ORGANIZATION_NAME: "Primordial Machine"
+  # Package (canonical) name.
+  PACKAGE_CANONICAL_NAME : "math-vectors"
+  PACKAGE_NAME: "Math Vectors"
+  # Pakcage category.
+  PACKAGE_CATEGORY: "library"
   # Environment variables pertaining to GoogleTestAdapter.
   GOOGLETESTADAPTER_FILENAME : "GoogleTestAdapter-0.14.0.vsix"
   GOOGLETESTADAPTER_URL : "https://github.com/csoltenborn/GoogleTestAdapter/releases/download/v0.14.0/GoogleTestAdapter-0.14.0.vsix"
@@ -109,9 +115,9 @@ install:
 before_build:
   - nuget restore         # Restore NuGet packages.
   - ps: |
-      $env:ARTIFACT_NAME="$($env:ORGANIZATION_NAME.tolower())-$($env:PACKAGE_NAME.tolower())-$($env:configuration.tolower())-$($env:platform.tolower())"
+      $env:ARTIFACT_NAME="$($env:ORGANIZATION_CANONICAL_NAME.tolower())-$($env:PACKAGE_CANONICAL_NAME.tolower())-$($env:configuration.tolower())-$($env:platform.tolower())"
       $env:ARTIFACT_FILENAME="$($env:ARTIFACT_NAME).zip"
-      $env:DOCUMENTATION_ARTIFACT_NAME="$($env:ORGANIZATION_NAME.tolower())-$($env:PACKAGE_NAME.tolower())-$($env:configuration.tolower())-$($env:platform.tolower())"
+      $env:DOCUMENTATION_ARTIFACT_NAME="$($env:ORGANIZATION_CANONICAL_NAME.tolower())-$($env:PACKAGE_CANONICAL_NAME.tolower())-$($env:configuration.tolower())-$($env:platform.tolower())"
       $env:DOCUMENTATION_ARTIFACT_FILENAME="$($env:DOCUMENTATION_ARTIFACT_NAME).pdf"
 
 build_script:
@@ -125,7 +131,7 @@ build_script:
 after_build:
    - ps: |
        cd packages
-       7z a $env:ARTIFACT_FILENAME $($env:ORGANIZATION_NAME.tolower())
+       7z a $env:ARTIFACT_FILENAME $($env:ORGANIZATION_CANONICAL_NAME.tolower())
        Move-Item -Path ./$env:ARTIFACT_FILENAME -Destination ./../$env:ARTIFACT_FILENAME
        cd ..
    - ps: |
@@ -137,7 +143,7 @@ test_script:
       $configuration=$env:configuration
       $platform=$env:platform
       $testAdapterPath="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\GoogleTestAdapter-0.14.0"
-      $testPath="products\test\$platform\$configuration\$($env:PACKAGE_NAME.tolower())-test.exe"
+      $testPath="products\test\$platform\$configuration\$($env:PACKAGE_CANONICAL_NAME.tolower())-test.exe"
       vstest.console /Logger:$logger /Platform:$platform /TestAdapterPath:$testAdapterPath /inIsolation $testPath
 
 artifacts:
@@ -153,8 +159,9 @@ notifications:
 
 # GitHub Prerelease.
 deploy:
-  release: "Automatic Prerelease from AppVeyor Build $(appveyor_build_version)"
-  description: "Automatic Prerelease from AppVeyor Build $(appveyor_build_version) of\n branch 'master' and tag '$(appveyor_repo_tag_name)'."
+  tag: "$(appveyor_repo_tag_name)"
+  release: "Version $(version)"
+  description: "Version $(version) of $(organization_name)'s $(package_name) $(package_category)."
   provider: GitHub
   auth_token:
     secure: 46x+mlkXPA9TkpptTOTfkhkmDrswaZvDrwUFPLFCCNcbL3lh98gFpxnGgO5eW2eT # Encrypted personal access token.
