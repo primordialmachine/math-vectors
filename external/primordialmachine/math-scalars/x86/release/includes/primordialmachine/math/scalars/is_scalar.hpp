@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
-// Primordial Machine's Vectors Library
-// Copyright (C) 2017-2019 Michael Heilmann
+// Primordial Machine's Math Scalars Library
+// Copyright (C) 2019 Michael Heilmann
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the
@@ -25,24 +25,30 @@
 
 #pragma once
 
-#include "primordialmachine/math/scalars/include.hpp"
-
 namespace primordialmachine {
 
-template<typename ELEMENT_TYPE, size_t DIMENSIONALITY>
-struct vector_traits
-{
-  using element_type = ELEMENT_TYPE;
-  static constexpr size_t dimensionality = DIMENSIONALITY;
-};
-
 template<typename TYPE>
-struct is_vector
+struct is_scalar
 {
   static constexpr bool value = false;
 };
 
-template<typename TRAITS, typename ENABLED = void>
-struct vector;
+template<>
+struct is_scalar<float>
+{
+  static constexpr bool value = true;
+};
+
+template<>
+struct is_scalar<double>
+{
+  static constexpr bool value = true;
+};
+
+template<>
+struct is_scalar<long double>
+{
+  static constexpr bool value = true;
+};
 
 } // namespace primordialmachine

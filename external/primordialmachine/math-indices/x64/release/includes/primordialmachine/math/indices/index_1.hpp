@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
-// Primordial Machine's Vectors Library
-// Copyright (C) 2017-2019 Michael Heilmann
+// Primordial Machine's Math Indices Library
+// Copyright (C) 2019 Michael Heilmann
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the
@@ -25,24 +25,19 @@
 
 #pragma once
 
-#include "primordialmachine/math/scalars/include.hpp"
-
 namespace primordialmachine {
 
-template<typename ELEMENT_TYPE, size_t DIMENSIONALITY>
-struct vector_traits
+struct index_1
 {
-  using element_type = ELEMENT_TYPE;
-  static constexpr size_t dimensionality = DIMENSIONALITY;
-};
+private:
+  size_t m_i;
 
-template<typename TYPE>
-struct is_vector
-{
-  static constexpr bool value = false;
-};
-
-template<typename TRAITS, typename ENABLED = void>
-struct vector;
+public:
+  constexpr index_1(size_t i) noexcept
+    : m_i(i)
+  {}
+  constexpr const size_t& i() const noexcept { return m_i; }
+  constexpr size_t& i() noexcept { return m_i; }
+}; // struct index_1
 
 } // namespace primordialmachine
