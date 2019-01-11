@@ -61,6 +61,7 @@ image: Visual Studio 2017 # Build worker image (VM template)
 
 branches:
   only:
+    - develop
     - master
 
 platform:
@@ -99,6 +100,11 @@ cache:
   - "%MIKTEX_INSTALL_PATH% -> appveyor-develop.yml"
 
 install:
+  # If repo tag of the proper format is given, extract the version number.
+  - ps: |
+      if ($env:APPVEYOR_REPO_TAG -and $($env:APPVEYOR_REPO_TAG_NAME -match "version_[0-9][0-9]*\.[0-9][0-9]*")) {
+         $env:version = $env:appveyor_repo_tag_name -replace "version_", ""
+      }
   # Download and install GoogleTestAdapter.
   # Use cached archives/installations if possible.
   - IF NOT EXIST "%GOOGLETESTADAPTER_FILENAME%" (appveyor DownloadFile "%GOOGLETESTADAPTER_URL%" -FileName "%GOOGLETESTADAPTER_FILENAME%")
@@ -115,9 +121,17 @@ install:
 before_build:
   - nuget restore         # Restore NuGet packages.
   - ps: |
-      $env:ARTIFACT_NAME="$($env:ORGANIZATION_CANONICAL_NAME.tolower())-$($env:PACKAGE_CANONICAL_NAME.tolower())-$($env:configuration.tolower())-$($env:platform.tolower())"
+      if (Test-Path env:version) {
+        $env:ARTIFACT_NAME="$($env:ORGANIZATION_CANONICAL_NAME.tolower())-$($env:PACKAGE_CANONICAL_NAME.tolower())-v$($env:version.tolower())-$($env:configuration.tolower())-$($env:platform.tolower())"
+      } else {
+         $env:ARTIFACT_NAME="$($env:ORGANIZATION_CANONICAL_NAME.tolower())-$($env:PACKAGE_CANONICAL_NAME.tolower())-$($env:configuration.tolower())-$($env:platform.tolower())"    
+      }
       $env:ARTIFACT_FILENAME="$($env:ARTIFACT_NAME).zip"
-      $env:DOCUMENTATION_ARTIFACT_NAME="$($env:ORGANIZATION_CANONICAL_NAME.tolower())-$($env:PACKAGE_CANONICAL_NAME.tolower())-$($env:configuration.tolower())-$($env:platform.tolower())"
+      if (Test-Path env:version) {
+        $env:DOCUMENTATION_ARTIFACT_NAME="$($env:ORGANIZATION_CANONICAL_NAME.tolower())-$($env:PACKAGE_CANONICAL_NAME.tolower())-v$($env:version.tolower())-$($env:configuration.tolower())-$($env:platform.tolower())"
+      } else {
+        $env:DOCUMENTATION_ARTIFACT_NAME="$($env:ORGANIZATION_CANONICAL_NAME.tolower())-$($env:PACKAGE_CANONICAL_NAME.tolower())-$($env:configuration.tolower())-$($env:platform.tolower())"
+      }
       $env:DOCUMENTATION_ARTIFACT_FILENAME="$($env:DOCUMENTATION_ARTIFACT_NAME).pdf"
 
 build_script:
