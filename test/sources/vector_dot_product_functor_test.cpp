@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //
-// Primordial Machine's Vectors Library
+// Primordial Machine's Math Vectors Library
 // Copyright (C) 2017-2019 Michael Heilmann
 //
 // This software is provided 'as-is', without any express or implied warranty.
@@ -23,7 +23,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "primordialmachine/vectors/include.hpp"
+#include "primordialmachine/math/vectors/include.hpp"
 #include "gtest/gtest.h"
 
 using vector_traits = primordialmachine::vector_traits<float, 3>;

@@ -124,7 +124,7 @@ before_build:
       if (Test-Path env:version) {
         $env:ARTIFACT_NAME="$($env:ORGANIZATION_CANONICAL_NAME.tolower())-$($env:PACKAGE_CANONICAL_NAME.tolower())-v$($env:version.tolower())-$($env:configuration.tolower())-$($env:platform.tolower())"
       } else {
-         $env:ARTIFACT_NAME="$($env:ORGANIZATION_CANONICAL_NAME.tolower())-$($env:PACKAGE_CANONICAL_NAME.tolower())-$($env:configuration.tolower())-$($env:platform.tolower())"    
+        $env:ARTIFACT_NAME="$($env:ORGANIZATION_CANONICAL_NAME.tolower())-$($env:PACKAGE_CANONICAL_NAME.tolower())-$($env:configuration.tolower())-$($env:platform.tolower())"    
       }
       $env:ARTIFACT_FILENAME="$($env:ARTIFACT_NAME).zip"
       if (Test-Path env:version) {

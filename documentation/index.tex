@@ -26,21 +26,20 @@
 \documentclass[oneside]{book}
 
 \input{common}
-\setlength{\parindent}{0pt} % Disable paragraph indention.
 
 \SetOrganization{Primordial Machine's}
 \SetLibraryName{Vectors Library}
 
 \SetLibraryIncludeFileName{include.hpp}
-\SetLibraryIncludesDirectoryPath{primordialmachine/vectors/\newline\$(PlatformTarget.toLower())/\$(Configuration.toLower())/includes}
+\SetLibraryIncludesDirectoryPath{primordialmachine/math-vectors/\newline\$(PlatformTarget.toLower())/\$(Configuration.toLower())/includes}
 
-\SetLibraryIncludeDirectiveFilePath{primordialmachine/vectors/include.hpp}
+\SetLibraryIncludeDirectiveFilePath{primordialmachine/math/vectors/include.hpp}
 
-\SetLibraryStaticLibrariesDirectoryPath{primordialmachine/vectors/\newline\$(PlatformTarget.toLower())/\$(Configuration.toLower())/libraries}
-\SetLibraryStaticLibraryFileName{vectors.lib}
+\SetLibraryStaticLibrariesDirectoryPath{primordialmachine/math-vectors/\newline\$(PlatformTarget.toLower())/\$(Configuration.toLower())/libraries}
+\SetLibraryStaticLibraryFileName{math-vectors.lib}
 
 \SetLibraryVersion{v1.0}
-\SetLibraryRepository{https://github.com/primordialmachine/vectors}
+\SetLibraryRepository{https://github.com/primordialmachine/math-vectors}
 \SetAuthor{Michael Heilmann}
 \SetEmail{michaelheilmann@primordialmachine.com}
 
@@ -84,23 +83,43 @@ The added namespace elements are documented below.
 
 \input{functors}
 
-\section{\texttt{struct vector\_traits}}
+\section{\texttt{vector\_traits} (struct)}
 \begin{verbatim}
 template<typename ELEMENT_TYPE, typename NUMBER_OF_ELEMENTS>
 struct vector_traits;
 \end{verbatim}
 
-\section{\texttt{struct vector}}
+\section{\texttt{is\_vector} (struct)}
+\texttt{
+template \textlangle typename TYPE, typename ENABLED = void\textrangle\newline
+struct is\_vector {\newline
+  static bool const value = false;\newline
+};}
+
+\noindent{}This template defines a compile-time boolean constant \texttt{value}
+which can be used to determine whether a type \texttt{TYPE} is a valid vector type.
+This library provides specialization for its \texttt{vector} template specializations.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\texttt{vector} (struct)}
 \begin{verbatim}
 template<typename TRAITS, typename ENABLED = void>
 struct vector;
 \end{verbatim}
+\noindent{}This library provides specializations where \texttt{TRAITS} is a \texttt{vector\_traits}
+specialization with the following properties:
+\begin{enumerate}
+	\item \texttt{ELEMENT\_TYPE} is a type \texttt{TYPE} for which \texttt{is\_scalar\textlangle TYPE \textrangle::value} is \texttt{true}.
+	\item \texttt{NUMBER\_OF\_ELEMENTS} is any number between 0 and \texttt{std::numeric\_limits\textlangle size\_t\textrangle\::max()}.
+\end{enumerate}
+
+
 
 \subsection{Members}
 
 \subsection{Non Members}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{operator+ (binary, vector vector)}
+\subsubsection{\texttt{operator+} (binary, vector vector)}
 \begin{verbatim}
 template<typename U, typename V>
 typename binary_plus_functor<vector<U>, vector<V>>::result_type
@@ -114,7 +133,7 @@ and \texttt{vector\textlangle V\textrangle} where
 	\item \texttt{U::element\_type} and \texttt{V::element\_type} are floating point types.
 \end{enumerate}
 
-\subsubsection{operator+ (unary, vector)}
+\subsubsection{\texttt{operator+} (unary, vector)}
 \begin{verbatim}
 template<typename V>
 typename unary_plus_functor<vector<V>>::result_type
@@ -124,7 +143,7 @@ operator+(const vector<V>& v)
 This library provides a specializations for \texttt{vector\textlangle V\textrangle}
 where \texttt{V::element\_type} is a floating point type.
 
-\subsubsection{operator+= (vector vector)}
+\subsubsection{\texttt{operator+=} (vector vector)}
 \begin{verbatim}
 template<typename U, typename V>
 auto
@@ -135,7 +154,7 @@ operator-=(vector<U>& u, const vector<V>& v)
 }
 \end{verbatim}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{operator- (binary, vector vector)}
+\subsubsection{\texttt{operator-} (binary, vector vector)}
 \begin{verbatim}
 template<typename U, typename V>
 typename binary_minus_functor<vector<U>, vector<V>>::result_type
@@ -149,7 +168,7 @@ and \texttt{vector\textlangle V\textrangle} where
 	\item \texttt{U::element\_type} and \texttt{V::element\_type} are floating point types.
 \end{enumerate}
 
-\subsubsection{operator- (unary, vector)}
+\subsubsection{\texttt{operator-} (unary, vector)}
 \begin{verbatim}
 template<typename V>
 typename unary_minus_functor<vector<V>>::result_type
@@ -159,7 +178,7 @@ operator-(const vector<V>& v)
 This library provides a specializations for \texttt{vector\textlangle V\textrangle}
 where \texttt{V::element\_type} is a floating point type.
 
-\subsubsection{operator-= (vector vector)}
+\subsubsection{\texttt{operator-=} (vector vector)}
 \begin{verbatim}
 template<typename U, typename V>
 auto
@@ -170,7 +189,7 @@ operator-=(vector<U>& u, const vector<V>& v)
 }
 \end{verbatim}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{operator* (binary, vector vector)}
+\subsubsection{\texttt{operator*} (binary, vector vector)}
 Computes the sum of two vectors.
 A possible implementation is
 \begin{verbatim}
@@ -186,7 +205,7 @@ and \texttt{vector\textlangle V\textrangle} where
 	\item \texttt{U::element\_type} and \texttt{V::element\_type} are floating point types.
 \end{enumerate}
 
-\subsubsection{operator*= (vector vector)}
+\subsubsection{\texttt{operator*=} (binary, vector vector)}
 \begin{verbatim}
 template<typename U, typename V>
 auto
@@ -197,7 +216,7 @@ operator*=(vector<U>& u, const vector<V>& v)
 }
 \end{verbatim}
 
-\subsubsection{operator* (binary, vector scalar)}
+\subsubsection{\texttt{operator*} (binary, vector scalar)}
 \begin{verbatim}
 template<typename V, typename S>
 typename binary_star_functor<vector<V>, S>::result_type
@@ -208,7 +227,7 @@ This library provides a specializations for \texttt{vector\textlangle V\textrang
 and \texttt{S} where    \texttt{V::element\_type} and \texttt{S} are floating point
 types.
 
-\subsubsection{operator*= (vector scalar)}
+\subsubsection{\texttt{operator*=} (binary, vector scalar)}
 \begin{verbatim}
 template<typename V, typename S>
 auto
@@ -219,7 +238,7 @@ operator*=(vector<V>& v, S s)
 }
 \end{verbatim}
 
-\subsubsection{operator* (scalar vector)}
+\subsubsection{\texttt{operator*} (binary, scalar vector)}
 \begin{verbatim}
 template<typename S, typename V>
 auto
@@ -230,7 +249,7 @@ operator*(S s, vector<V>& v)
 \end{verbatim}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{operator/ (binary, vector scalar)}
+\subsubsection{\texttt{operator/} (binary, vector scalar)}
 \begin{verbatim}
 template<typename V, typename S>
 typename binary_slash_functor<vector<V>, S>::result_type
@@ -241,7 +260,7 @@ This library provides a specializations for \texttt{vector\textlangle V\textrang
 and \texttt{S} where    \texttt{V::element\_type} and \texttt{S} are floating point
 types.
 
-\subsubsection{operator/= (vector scalar)}
+\subsubsection{\texttt{operator/=} (binary, vector scalar)}
 \begin{verbatim}
 template<typename V, typename S>
 auto
@@ -253,7 +272,7 @@ operator/=(vector<V>& v, S s)
 \end{verbatim}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{\texttt{struct dot\_product\_functor}}
+\subsubsection{\texttt{dot\_product\_functor} (struct)}
 a \textit{BinaryFunctorBase} computing the dot product of two vectors.
 A possible implementation is given by
 \begin{verbatim}
@@ -262,13 +281,13 @@ struct dot_product_functor;
 \end{verbatim}
 
 This library provides \textit{BinaryFunctor} specializations of this \textit{BinaryFunctorBase}
-where \texttt{LEFT\_OPERAND} and \texttt{RIGHT\_OPERAND} are specializations   of \texttt{vector} with   the
-same number of elements $N$. The result type \texttt{result\_type} is\newline
+where \texttt{LEFT\_OPERAND} and \texttt{RIGHT\_OPERAND} are specializations of \texttt{vector}
+with the same number of elements $N$. The result type \texttt{result\_type}          is\newline
 \texttt{std::common\_type\_t\textlangle LEFT\_OPERAND\_TRAITS::element\_type, RIGHT\_OPERAND\_TRAITS::element\_type\textrangle}\newline
  where \texttt{LEFT\_OPERAND\_TRAITS} and \texttt{RIGHT\_OPERAND\_TRAITS} are the traits of these specializations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{\texttt{struct cross\_product\_functor}}
+\subsubsection{\texttt{cross\_product\_functor} (struct)}
 A \textit{BinaryFunctorBase} computing the cross product of two vectors.
 A possible implementation is given by
 \begin{verbatim}
@@ -286,7 +305,7 @@ RESULT\_TRAITS:=vector\_traits\textlangle std::common\_type\_t\textlangle{}LEFT\
 \hphantom{RESULT\_TRAITS:=vector\_traits\textlangle}3\textrangle}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{\texttt{square\_euclidean\_norm\_functor}}
+\subsubsection{\texttt{square\_euclidean\_norm\_functor} (struct)}
 A \textit{UnaryFunctorBase} computing the squared Euclidean norm of a vector.
 A possible implementation is given by
 \begin{verbatim}
@@ -299,7 +318,7 @@ where \texttt{OPERAND} is specializations of \texttt{vector}. The result type   
 result\_type} is \texttt{OPERAND\_TRAITS::element\_type\textrangle}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{\texttt{euclidean\_norm\_functor}}
+\subsubsection{\texttt{euclidean\_norm\_functor} (struct)}
 An \textit{UnaryFunctorBase} computing the Euclidean norm of a vector.
 A possible implementation is given by
 \begin{verbatim}
@@ -312,7 +331,7 @@ where \texttt{OPERAND} is specializations of \texttt{vector}. The result type   
 result\_type} is \texttt{OPERAND\_TRAITS::element\_type}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{\texttt{normalize\_functor}}
+\subsubsection{\texttt{normalize\_functor} (struct)}
 A \textit{UnaryFunctorBase} computing the normalized vector of a vector.
 A possible implementation is given by
 \begin{verbatim}
@@ -335,7 +354,7 @@ The \texttt{operator()} has a third parameter  \texttt{norm} which defaults to
 Add the \textit{ParameterizedBinaryFunctor(Base) concepts.}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{\texttt{are\_orthogonal\_functor}}
+\subsubsection{\texttt{are\_orthogonal\_functor} (struct)}
 A \textit{BinaryFunctorBase} computing if two vectors are orthogonal.
 A possible implementation is given by
 \begin{verbatim}
@@ -357,5 +376,8 @@ LEFT\_OPERAND\_TRAITS::element\_type,    RIGHT\_OPERAND\_TRAITS::element\_type
 \textit{\textcolor{orange}{The \textit{ParameterizedBinaryFunctor(Base)} concepts - like
 \texttt{are\_orthogonal\_functor} - subsumes the \textit{BinaryFunctor(Base)}  concepts.
 Add the \textit{ParameterizedBinaryFunctor(Base) concepts.}}}
+
+\subsubsection{\texttt{are\_orthogonal} (function)}
+A \textit{BinaryFunction} computing if two vector
 
 \end{document}
