@@ -25,39 +25,31 @@
 
 #pragma once
 
-#include "primordialmachine/relational_functors/include.hpp"
 #include "primordialmachine/math/vectors/vector_n.hpp"
+#include "primordialmachine/relational_functors/include.hpp"
 
 namespace primordialmachine {
 
-template<typename TRAITS>
-struct not_equal_to_functor<vector<TRAITS>, vector<TRAITS>, void>
+template<typename V>
+struct not_equal_to_functor<V, V, enable_if_t<is_vector_v<V>>>
 {
-  using left_operand_type = vector<TRAITS>;
-  using right_operand_type = vector<TRAITS>;
+  using left_operand_type = V;
+  using right_operand_type = V;
   using result_type = bool;
   bool operator()(const left_operand_type& a, const right_operand_type& b) const
   {
-    return impl(a, b, std::make_index_sequence<TRAITS::number_of_elements>());
-    return true;
+    return impl(a, b, make_index_sequence<number_of_elements_v<V>>());
   }
 
-  template<std::size_t... N>
+  template<size_t... N>
   constexpr bool impl(const left_operand_type& a,
                       const right_operand_type& b,
-                      std::index_sequence<N...>) const
+                      index_sequence<N...>) const
   {
     auto op = not_equal_to_functor<element_type_t<left_operand_type>,
                                    element_type_t<right_operand_type>>();
     return ((op(a(N), b(N))) || ...);
   }
-};
-
-template<typename TRAITS>
-auto
-operator!=(vector<TRAITS> const& u, vector<TRAITS> const& v)
-{
-  return not_equal_to_functor<vector<TRAITS>, vector<TRAITS>>()(u, v);
-}
+}; // struct not_equal_to_functor
 
 } // namespace primordialmachine

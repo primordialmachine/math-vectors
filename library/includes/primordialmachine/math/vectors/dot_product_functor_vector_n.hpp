@@ -46,12 +46,12 @@ struct dot_product_functor<
                   const right_operand_type& right_operand) const
   {
     return implementation(
-      left_operand, right_operand, std::make_index_sequence<number_of_elements>());
+      left_operand, right_operand, make_index_sequence<number_of_elements>());
   }
   template<size_t... Is>
   auto implementation(const left_operand_type& left_operand,
                       const right_operand_type& right_operand,
-                      std::index_sequence<Is...>) const
+                      index_sequence<Is...>) const
   {
     return ((left_operand(Is) * right_operand(Is)) + ...);
   }

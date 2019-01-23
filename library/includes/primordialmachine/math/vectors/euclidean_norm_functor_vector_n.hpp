@@ -38,11 +38,11 @@ struct euclidean_norm_functor<V, enable_if_t<is_vector_v<V>>>
   auto operator()(const operand_type& operand) const
   {
     return implementation(operand,
-                          std::make_index_sequence<number_of_elements_v<V>>{});
+                          make_index_sequence<number_of_elements_v<V>>{});
   }
   template<size_t... Is>
   auto implementation(const operand_type& operand,
-                      std::index_sequence<Is...>) const
+                      index_sequence<Is...>) const
   {
     return std::sqrt(((operand(Is) * operand(Is)) + ...));
   }

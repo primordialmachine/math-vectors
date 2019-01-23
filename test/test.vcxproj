@@ -28,6 +28,12 @@
     <ProjectName>test</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared" />
@@ -79,16 +85,33 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>GTEST_LANG_CXX11=1;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>$(SolutionDir)packages\primordialmachine\math-vectors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\arithmetic-functors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\errors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\functors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\math-integers\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\math-non-scalars\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\math-scalars\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\one-zero-functors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\relational-functors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(ProjectDir)includes;$(MSBuildThisFileDirectory)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <OpenMPSupport>false</OpenMPSupport>
+      <EnableModules>false</EnableModules>
+      <ConformanceMode>true</ConformanceMode>
+      <SupportJustMyCode>true</SupportJustMyCode>
+      <CompileAsManaged>false</CompileAsManaged>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <StringPooling>true</StringPooling>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -97,16 +120,34 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>GTEST_LANG_CXX11=1;X64;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>$(SolutionDir)packages\primordialmachine\math-vectors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\arithmetic-functors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\errors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\functors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\math-integers\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\math-non-scalars\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\math-scalars\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\one-zero-functors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\relational-functors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(ProjectDir)includes;$(MSBuildThisFileDirectory)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <OpenMPSupport>false</OpenMPSupport>
+      <EnableModules>false</EnableModules>
+      <ConformanceMode>true</ConformanceMode>
+      <SupportJustMyCode>true</SupportJustMyCode>
+      <CompileAsManaged>false</CompileAsManaged>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <OmitFramePointers>false</OmitFramePointers>
+      <StringPooling>true</StringPooling>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -119,12 +160,33 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>$(SolutionDir)packages\primordialmachine\math-vectors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\arithmetic-functors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\errors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\functors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\math-integers\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\math-non-scalars\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\math-scalars\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\one-zero-functors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\relational-functors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(ProjectDir)includes;$(MSBuildThisFileDirectory)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <CompileAsManaged>false</CompileAsManaged>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <SDLCheck>false</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <StringPooling>true</StringPooling>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <ControlFlowGuard>false</ControlFlowGuard>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <OpenMPSupport>false</OpenMPSupport>
+      <EnableModules>false</EnableModules>
+      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -137,12 +199,33 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>$(SolutionDir)packages\primordialmachine\math-vectors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\arithmetic-functors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\errors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\functors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\math-integers\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\math-non-scalars\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\math-scalars\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\one-zero-functors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(SolutionDir)external\primordialmachine\relational-functors\$(PlatformTarget.toLower())\$(Configuration.toLower())\includes;$(ProjectDir)includes;$(MSBuildThisFileDirectory)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <CompileAsManaged>false</CompileAsManaged>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <SDLCheck>false</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <StringPooling>true</StringPooling>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <ControlFlowGuard>false</ControlFlowGuard>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <OpenMPSupport>false</OpenMPSupport>
+      <EnableModules>false</EnableModules>
+      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

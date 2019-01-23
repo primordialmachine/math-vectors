@@ -38,14 +38,15 @@ struct are_orthogonal_functor<
   LEFT_OPERAND,
   RIGHT_OPERAND,
   EQUAL_TO_FUNCTOR,
-  enable_if_t<
-    is_floating_point_v<element_type_t<LEFT_OPERAND>> &&
-    is_floating_point_v<element_type_t<RIGHT_OPERAND>>>>
+  enable_if_t<is_floating_point_v<element_type_t<LEFT_OPERAND>> &&
+              is_floating_point_v<element_type_t<RIGHT_OPERAND>>>>
 {
   using left_operand_type = LEFT_OPERAND;
   using right_operand_type = RIGHT_OPERAND;
   using equal_to_functor_type = EQUAL_TO_FUNCTOR;
-  auto operator()(const left_operand_type& u, const right_operand_type& v, equal_to_functor_type equal_to_functor)
+  auto operator()(const left_operand_type& u,
+                  const right_operand_type& v,
+                  equal_to_functor_type equal_to_functor)
   {
     // EQUAL_TO_FUNCTOR can be a relation of d == 0 e.g. abs(d) < 0.001f.
     const auto d = dot_product(u, v);
