@@ -32,9 +32,7 @@ namespace primordialmachine {
 
 template<typename V>
 struct unary_minus_functor<V, enable_if_t<is_vector_v<V>>>
-  : public elementwise_unary_vector_functor<
-      typename V::traits_type,
-      unary_minus_functor<element_type_t<V>>>
-{};
+  : public default_elementwise_unary_minus_functor<V>
+{}; // struct unary_minus_functor
 
 } // namespace primordialmachine

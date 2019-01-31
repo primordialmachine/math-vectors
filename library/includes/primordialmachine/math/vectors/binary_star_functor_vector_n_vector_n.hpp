@@ -32,24 +32,12 @@ namespace primordialmachine {
 
 template<typename V>
 struct binary_star_functor<V, V, enable_if_t<is_vector_v<V>>>
-  : public elementwise_binary_vector_functor<
-      typename V::traits_type,
-      binary_star_functor<element_type_t<V>,
-                          element_type_t<V>>>
-{};
+  : public default_elementwise_binary_star_functor<V, V>
+{}; // struct binary_star_functor
 
 template<typename V>
 struct star_assignment_functor<V, V, enable_if_t<is_vector_v<V>>>
-{
-  using left_operand_type = V;
-  using right_operand_type = V;
-  using result_type = V;
-  result_type& operator()(left_operand_type& left_operand,
-                          const right_operand_type& right_operand) const
-  {
-    left_operand = left_operand * right_operand;
-    return left_operand;
-  }
-};
+: public default_elementwise_star_assignment_functor<V, V>
+{}; // struct star_assignment_functor
 
 } // namespace primordialmachine

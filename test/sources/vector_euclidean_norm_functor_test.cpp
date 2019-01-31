@@ -33,6 +33,6 @@ TEST(vectors_tests, euclidean_norm_functor_vector_3_test)
 {
   using namespace primordialmachine;
   auto value = euclidean_norm(vector_type(2.f, 3.f, 5.f));
-  auto result = std::sqrt(2.f * 2.f + 3.f * 3.f + 5.f * 5.f) == value;
+  auto result = square_root(2.f * 2.f + 3.f * 3.f + 5.f * 5.f) == value;
   ASSERT_TRUE(result);
 }

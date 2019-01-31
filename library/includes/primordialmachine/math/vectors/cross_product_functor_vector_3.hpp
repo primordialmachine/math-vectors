@@ -31,22 +31,24 @@
 namespace primordialmachine {
 
 template<typename LEFT_OPERAND, typename RIGHT_OPERAND>
-struct cross_product_functor<LEFT_OPERAND, RIGHT_OPERAND,
-  enable_if_t<is_vector_v<LEFT_OPERAND> && is_vector_v<RIGHT_OPERAND> &&
-              number_of_elements_v<LEFT_OPERAND> == 3 &&
-              number_of_elements_v<RIGHT_OPERAND> == 3 &&
-              is_same_v<element_type_t<LEFT_OPERAND>,
-                        element_type_t<RIGHT_OPERAND>>>>
+struct cross_product_functor<
+  LEFT_OPERAND,
+  RIGHT_OPERAND,
+  enable_if_t<
+    is_vector_v<LEFT_OPERAND> && is_vector_v<RIGHT_OPERAND> &&
+    number_of_elements_v<LEFT_OPERAND> == 3 &&
+    number_of_elements_v<RIGHT_OPERAND> == 3 &&
+    is_same_v<element_type_t<LEFT_OPERAND>, element_type_t<RIGHT_OPERAND>>>>
 {
   using left_operand_type = LEFT_OPERAND;
   using right_operand_type = RIGHT_OPERAND;
   using result_type = LEFT_OPERAND;
-  result_type operator()(const left_operand_type& u, const right_operand_type& v) const
+  result_type operator()(const left_operand_type& u,
+                         const right_operand_type& v) const
   {
-    return result_type(
-      u(1) * v(2) - u(2) * v(1),
-      u(2) * v(0) - u(0) * v(2),
-      u(0) * v(1) - u(1) * v(0));
+    return result_type(u(1) * v(2) - u(2) * v(1),
+                       u(2) * v(0) - u(0) * v(2),
+                       u(0) * v(1) - u(1) * v(0));
   }
 }; // struct cross_product_functor
 

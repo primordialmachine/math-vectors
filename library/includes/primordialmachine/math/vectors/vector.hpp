@@ -38,22 +38,31 @@ struct vector_traits
   static constexpr bool is_non_degenerate = false == is_degenerate;
 }; // struct vector_traits
 
-template<typename TYPE>
-struct is_vector
-{
-  static constexpr bool value = false;
-}; // struct is_vector
+template<typename TRAITS, typename ENABLED = void>
+struct vector;
 
-template<typename TYPE>
-inline constexpr bool is_vector_v = is_vector<TYPE>::value;
-
-/*===============================================================================================*/
+template<typename T, typename ENABLED = void>
+struct is_vector : public false_type
+{}; // struct is_vector
 
 template<typename T>
-struct is_non_scalar<T, enable_if_t<is_vector_v<T>>>
+inline constexpr bool is_vector_v = is_vector<T, void>::value;
+
+template<typename T>
+struct number_of_elements<T, enable_if_t<is_vector_v<T>>>
 {
-  static constexpr bool value = true;
-}; // struct is_non_scalar
+  static constexpr size_t value = T::traits_type::number_of_elements;
+}; // struct number_of_elements
+
+template<typename T>
+struct element_type<T, enable_if_t<is_vector_v<T>>>
+{
+  using type = typename T::traits_type::element_type;
+}; // struct element_type
+
+template<typename T>
+struct is_non_scalar<T, enable_if_t<is_vector_v<T>>> : public true_type
+{}; // struct is_non_scalar
 
 template<typename T>
 struct is_non_degenerate<T, enable_if_t<is_vector_v<T>>>
@@ -67,21 +76,6 @@ struct is_degenerate<T, enable_if_t<is_vector_v<T>>>
   static constexpr bool value = T::traits_type::is_degenerate;
 }; // struct is_degenerate
 
-template<typename T>
-struct number_of_elements<T, enable_if_t<is_vector_v<T>>>
-{
-  static constexpr size_t value = T::traits_type::number_of_elements;
-}; // struct number_of_elements
-
-template<typename TYPE>
-struct element_type<TYPE, enable_if_t<is_vector_v<TYPE>>>
-{
-  using type = typename TYPE::traits_type::element_type;
-}; // struct element_type
-
 /*===============================================================================================*/
-
-template<typename TRAITS, typename ENABLED = void>
-struct vector;
 
 } // namespace primordialmachine

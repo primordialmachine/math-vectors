@@ -28,7 +28,6 @@
 #include "primordialmachine/arithmetic_functors/include.hpp"
 #include "primordialmachine/math/vectors/vector.hpp"
 #include "primordialmachine/one_zero_functors/include.hpp"
-#include <type_traits>
 
 namespace primordialmachine {
 
@@ -216,22 +215,5 @@ TYPE::data()
 
 #undef STRUCT_CONDITION
 #pragma pop_macro("STRUCT_CONDITION")
-
-template<typename TRAITS, typename OPERATOR>
-using elementwise_unary_vector_functor =
-  elementwise_unary_functor<vector<TRAITS>,
-                            vector<TRAITS>,
-                            TRAITS::number_of_elements,
-                            OPERATOR,
-                            void>;
-
-template<typename TRAITS, typename OPERATOR>
-using elementwise_binary_vector_functor =
-  elementwise_binary_functor<vector<TRAITS>,
-                             vector<TRAITS>,
-                             vector<TRAITS>,
-                             TRAITS::number_of_elements,
-                             OPERATOR,
-                             void>;
 
 } // namespace primordialmachine

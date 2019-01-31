@@ -37,5 +37,5 @@ dot_product(const LEFT_OPERAND& u, const RIGHT_OPERAND& v)
 {
   return dot_product_functor<LEFT_OPERAND, RIGHT_OPERAND>()(u, v);
 }
-	
+
 } // namespace primordialmachine
