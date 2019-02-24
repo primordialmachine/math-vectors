@@ -26,18 +26,18 @@
 #pragma once
 
 #include "primordialmachine/arithmetic_functors/include.hpp"
-#include "primordialmachine/math/vectors/vector_n.hpp"
+#include "primordialmachine/math/vectors/vector.hpp"
 
 namespace primordialmachine {
 
 template<typename V>
-struct binary_plus_functor<V, V, enable_if_t<is_vector_v<V>>>
-  : public default_elementwise_binary_plus_functor<V, V>
-{}; // struct binary_plus_functor
+struct binary_minus_functor<V, V, enable_if_t<is_vector_v<V>>>
+  : public default_elementwise_binary_minus_functor<V, V>
+{}; // struct binary_minus_functor
 
 template<typename V>
-struct plus_assignment_functor<V, V, enable_if_t<is_vector_v<V>>>
-  : public default_elementwise_plus_assignment_functor<V, V>
-{}; // struct plus_assignment_functor
+struct minus_assignment_functor<V, V, enable_if_t<is_vector_v<V>>>
+  : public default_elementwise_minus_assignment_functor<V, V>
+{}; // struct minus_assignment_functor
 
 } // namespace primordialmachine

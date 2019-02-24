@@ -26,22 +26,13 @@
 #pragma once
 
 #include "primordialmachine/arithmetic_functors/include.hpp"
-#include "primordialmachine/math/scalars/include.hpp"
-#include "primordialmachine/math/vectors/vector_n.hpp"
+#include "primordialmachine/math/vectors/vector.hpp"
 
 namespace primordialmachine {
 
-template<typename V, typename S>
-struct binary_slash_functor<V, S, enable_if_t<is_vector_v<V> && is_scalar_v<S>>>
-  : public default_elementwise_binary_slash_functor<V, S>
-{}; // struct binary_slash_functor
-
-template<typename V, typename S>
-struct slash_assignment_functor<V,
-                                S,
-                                enable_if_t<is_vector_v<V> && is_scalar_v<S> &&
-                                            is_same_v<element_type_t<V>, S>>>
-  : public default_elementwise_slash_assignment_functor<V, S>
-{}; // struct slash_assignment_functor
+template<typename V>
+struct unary_plus_functor<V, enable_if_t<is_vector_v<V>>>
+  : public default_elementwise_unary_plus_functor<V>
+{}; // struct unary_plus_functor
 
 } // namespace primordialmachine

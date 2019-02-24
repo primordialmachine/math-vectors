@@ -27,18 +27,13 @@
 #include "gtest/gtest.h"
 
 using vector_traits = primordialmachine::vector_traits<float, 3>;
-using vector_type = primordialmachine::vector<vector_traits>;
+using vector_type =
+  primordialmachine::vector<vector_traits>;
 
-TEST(vectors_tests, equal_to_vector_3_test)
+TEST(vectors_tests, binary_minus_vector_3_vector_3_test)
 {
   using namespace primordialmachine;
-  ASSERT_TRUE(vector_type(4.f, 4.f, 4.f) == vector_type(4.f, 4.f, 4.f));
-  ASSERT_FALSE(vector_type(4.f, 4.f, 4.f) == vector_type(2.f, 2.f, 2.f));
-}
-
-TEST(vectors_tests, not_equal_to_vector_3_test)
-{
-  using namespace primordialmachine;
-  ASSERT_FALSE(vector_type(4.f, 4.f, 4.f) != vector_type(4.f, 4.f, 4.f));
-  ASSERT_TRUE(vector_type(4.f, 4.f, 4.f) != vector_type(2.f, 2.f, 2.f));
+  auto result = vector_type(2.f, 2.f, 2.f) ==
+                vector_type(4.f, 4.f, 4.f) - vector_type(2.f, 2.f, 2.f);
+  ASSERT_TRUE(result);
 }

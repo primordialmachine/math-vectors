@@ -23,21 +23,15 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#pragma once
+#include "primordialmachine/math/vectors/include.hpp"
+#include "gtest/gtest.h"
 
-#include "primordialmachine/math/vectors/normalize_functor.hpp"
-#include "primordialmachine/math/vectors/vector_n.hpp"
+using vector_traits = primordialmachine::vector_traits<float, 3>;
+using vector_type = primordialmachine::vector<vector_traits>;
 
-namespace primordialmachine {
-
-template<typename TRAITS, typename NORM>
-struct normalize_functor<vector<TRAITS>, NORM, void>
+TEST(vectors_tests, unary_plus_vector_3_test)
 {
-  using operand_type = vector<TRAITS>;
-  auto operator()(const operand_type& operand) const
-  {
-      return operand / NORM()(operand);
-  }
-}; // struct normalize_functor
-
-} // namespace primordialmachine
+  using namespace primordialmachine;
+  auto result = vector_type(4.f, 4.f, 4.f) == +vector_type(4.f, 4.f, 4.f);
+  ASSERT_TRUE(result);
+}

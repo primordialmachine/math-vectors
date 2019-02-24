@@ -1,0 +1,84 @@
+\subsubsection{\texttt{operator+} (binary, vector vector)}
+The arithmetic sum $\vec{u} + \vec{v}$ of two vectors $\vec{u}=\left(u_0,u_1,\ldots,u_{n-1}\right)$
+and $\vec{v}=\left(v_0,v_1,\ldots,v_{n-1}\right)$  is defined as $\vec{u} + \vec{v} = \left(u_0   +
+v_0, u_1 + v_1, \ldots, u_{n-1} + v_{n-1}\right)$.
+%
+This library provides specializations of \texttt{binary\_plus\_functor} (see \cite{arithmeticfunctors})
+for $\texttt{A}=\texttt{V}$, $\texttt{B}=\texttt{V}$, and $\texttt{R} = \texttt{V}$ \ForAllVectors.
+
+\subsubsection{\texttt{operator+} (unary, vector)}
+The arithmetic affirmation $+\vec{v}$ of a vector $\vec{v}=\left(v_0,v_1,\ldots,v_{n-1}\right)$
+is defined as $+\vec{v} = \left(+v_0,v_1,\ldots,v_{n-1}\right)$.
+%
+This library provides specializations of \texttt{unary\_plus\_functor} (see \cite{arithmeticfunctors})
+for $\texttt{A}=\texttt{V}$ and $\texttt{R} = \texttt{V}$ \ForAllVectors.
+
+\subsubsection{\texttt{operator+=} (vector vector)}
+This library provides specializations of \texttt{plus\_assignment\_functor}  (see \cite{arithmeticfunctors})
+for $\texttt{A} = \texttt{V}$, $\texttt{B} = \texttt{V}$ \ForAllVectors.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{\texttt{operator-} (binary, vector vector)}
+The arithmetic difference $\vec{u} - \vec{v}$ of two vector $\vec{u}=\left(u_0,u_1,\ldots,u_{n-1}\right)$
+and $\vec{v}=\left(v_0,v_1,\ldots,v_{n-1}\right)$ is defined as $\vec{u}+\vec{v} = \left(u_0 - v_0,
+u_1 - v_1,\ldots,u_{n-1}+v_{n-1}\right)$.
+%
+This library provides specializations of \texttt{binary\_minus\_functor} (see \cite{arithmeticfunctors})
+for $\texttt{A}=\texttt{V}$, $\texttt{B}=\texttt{V}$, and $\texttt{R} = \texttt{V}$ \ForAllVectors.
+
+\subsubsection{\texttt{operator-} (unary, vector)}
+The arithmetic negation $-\vec{v}$ of a vector $\vec{v}=\left(v_0,v_1,\ldots,v_{n-1}\right)$
+is defined as $-\vec{v} = \left(-v_0, -v_1,\ldots, -v_{n-1}\right)$.
+%
+This library provides specializations of \texttt{unary\_minus\_functor} (see \cite{arithmeticfunctors})
+for $\texttt{A}=\texttt{V}$ and $\texttt{R} = \texttt{V}$ \ForAllVectors.
+
+\subsubsection{\texttt{operator-=} (vector vector)}
+This library provides specializations of \texttt{minus\_assignment\_functor}  (see \cite{arithmeticfunctors})
+for $\texttt{A} = \texttt{V}$, $\texttt{B} = \texttt{V}$ \ForAllVectors.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{\texttt{operator*} (binary, vector vector)}
+The component-wise product $\vec{u} \cdot \vec{v}$ of two vector $\vec{u}=\left(u_0, u_1, \ldots, u_{n-1}\right)$
+and $\vec{v}=\left(v_0,v_1,\ldots,v_{n-1}\right)$ is defined as $\vec{u} \cdot \vec{v} = \left(u_0 \cdot v_0,
+u_1 \cdot v_1,\ldots, u_{n-1} \cdot v_{n-1}\right)$.
+%
+This library provides specializations of \texttt{binary\_star\_functor} (see \cite{arithmeticfunctors})
+for $\texttt{A}=\texttt{V}$, $\texttt{B}=\texttt{V}$, and $\texttt{R} = \texttt{V}$ \ForAllVectors.
+
+\subsubsection{\texttt{operator*=} (binary, vector vector)}
+This library provides specializations of \texttt{star\_assignment\_functor}  (see \cite{arithmeticfunctors})
+for $\texttt{A} = \texttt{V}$, $\texttt{B} = \texttt{V}$ \ForAllVectors.
+
+\subsubsection{\texttt{operator*} (binary, vector scalar)}
+The vector scalar product $\vec{v} \cdot s$ of a vector $\vec{v}=\left(v_0, v_1, \ldots, v_{n-1}\right)$
+and a scalar $s$ is defined as $\vec{v} \cdot s = \left(v_0 \cdot s, v_1 \cdot s, \ldots, v_{n-1} \cdot
+s\right)$.
+%
+This library provides specializations of \texttt{binary\_star\_functor} (see \cite{arithmeticfunctors})
+for $\texttt{A}=\texttt{V}$, $\texttt{B}=\texttt{S}$, and $\texttt{R} = \texttt{T}$ \ForAllVectorsAndScalars.
+
+\subsubsection{\texttt{operator*=} (binary, vector scalar)}
+This library provides specializations of \texttt{star\_assignment\_functor}  (see \cite{arithmeticfunctors})
+for $\texttt{A} = \texttt{V}$, $\texttt{B} = \texttt{S}$ \ForAllVectorsAndScalars.
+
+\subsubsection{\texttt{operator*} (binary, scalar vector)}
+The scalar vector product $s \cdot \vec{v}$ is defined as $s \cdot \vec{v} = \vec{v} \cdot s$.
+%
+This library provides specializations of \texttt{binary\_star\_functor} (see \cite{arithmeticfunctors})
+for $\texttt{A}=\texttt{S}$, $\texttt{B}=\texttt{V}$, and $\texttt{R} = \texttt{V}$ \ForAllVectorsAndScalars.
+%for all types \texttt{V} with \texttt{is\_vector\_v\textlangle V\textrangle = true}
+%and $\texttt{S} = \texttt{element\_type\_t\textlangle V\textrangle}$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{\texttt{operator/} (binary, vector scalar)}
+The vector scalar quotient $\vec{v} / s$ of a vector $\vec{v}=\left(v_0, v_1, \ldots, v_{n-1}\right)$
+and a scalar $s$ is defined as $\vec{v} \cdot s = \left(v_0 / s, v_1 / s, \ldots, v_{n-1} /
+s\right)$.
+%
+This library provides specializations of \texttt{binary\_slash\_functor} (see \cite{arithmeticfunctors})
+for $\texttt{A}=\texttt{V}$, $\texttt{B}=\texttt{S}$, and $\texttt{R} = \texttt{V}$ \ForAllVectorsAndScalars.
+
+\subsubsection{\texttt{operator/=} (binary, vector scalar)}
+This library provides specializations of \texttt{star\_assignment\_functor}  (see \cite{arithmeticfunctors})
+for $\texttt{A} = \texttt{V}$, $\texttt{B} = \texttt{S}$ \ForAllVectorsAndScalars.

@@ -27,8 +27,7 @@
 
 \input{common}
 
-\SetOrganization{Primordial Machine's}
-\SetLibraryName{Vectors Library}
+\input{meta}
 
 \SetLibraryIncludeFileName{include.hpp}
 \SetLibraryIncludesDirectoryPath{primordialmachine/math-vectors/\newline\$(PlatformTarget.toLower())/\$(Configuration.toLower())/includes}
@@ -37,11 +36,6 @@
 
 \SetLibraryStaticLibrariesDirectoryPath{primordialmachine/math-vectors/\newline\$(PlatformTarget.toLower())/\$(Configuration.toLower())/libraries}
 \SetLibraryStaticLibraryFileName{math-vectors.lib}
-
-\SetLibraryVersion{v1.0}
-\SetLibraryRepository{https://github.com/primordialmachine/math-vectors}
-\SetAuthor{Michael Heilmann}
-\SetEmail{michaelheilmann@primordialmachine.com}
 
 \SetDocumentType{User Manual}
 
@@ -100,6 +94,38 @@ struct is\_vector {\newline
 which can be used to determine whether a type \texttt{TYPE} is a valid vector type.
 This library provides specialization for its \texttt{vector} template specializations.
 
+\section{\texttt{dot\_product\_functor} (struct)}
+A \textit{BinaryFunctorBase} computing the dot product of two vectors.
+A possible implementation is given by
+\begin{verbatim}
+template<typename LEFT_OPERAND, typename RIGHT_OPERAND, typename ENABLED = void>
+struct dot_product_functor;
+\end{verbatim}
+
+\section{\texttt{cross\_product\_functor} (struct)}
+A \textit{BinaryFunctorBase} computing the cross product of two vectors.
+A possible implementation is given by
+\begin{verbatim}
+template<typename LEFT_OPERAND, typename RIGHT_OPERAND, typename ENABLED = void>
+struct cross_product_functor;
+\end{verbatim}
+
+\section{\texttt{squared\_euclidean\_norm\_functor} (struct)}
+A \textit{UnaryFunctorBase} computing the squared Euclidean norm of a vector.
+A possible implementation is given by
+\begin{verbatim}
+template<typename OPERAND, typename ENABLED = void>
+struct squared_euclidean_norm_functor;
+\end{verbatim}
+
+\section{\texttt{euclidean\_norm\_functor} (struct)}
+An \textit{UnaryFunctorBase} computing the Euclidean norm of a vector.
+A possible implementation is given by
+\begin{verbatim}
+template<typename OPERAND, typename ENABLED = void>
+struct euclidean_norm_functor;
+\end{verbatim}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\texttt{vector} (struct)}
 \begin{verbatim}
@@ -113,173 +139,28 @@ specialization with the following properties:
 	\item \texttt{NUMBER\_OF\_ELEMENTS} is any number between 0 and \texttt{std::numeric\_limits\textlangle size\_t\textrangle\::max()}.
 \end{enumerate}
 
-
-
 \subsection{Members}
 
 \subsection{Non Members}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{\texttt{operator+} (binary, vector vector)}
-\begin{verbatim}
-template<typename U, typename V>
-typename binary_plus_functor<vector<U>, vector<V>>::result_type
-operator+(const vector<U>& u, const vector<V>& v)
-{ return binary_plus_functor<vector<U>, vector<V>>()(u, v); }
-\end{verbatim}
-This library provides a specializations for \texttt{vector\textlangle U\textrangle}
-and \texttt{vector\textlangle V\textrangle} where
-\begin{enumerate}
-	\item \texttt{U::number\_of\_elements} is equal to \texttt{V::number\_of\_elements} and
-	\item \texttt{U::element\_type} and \texttt{V::element\_type} are floating point types.
-\end{enumerate}
+\NewDocumentCommand\ForAllVectors{}{for all types \texttt{V}
+with
+$\texttt{is\_vector\_v\textlangle V\textrangle} = \texttt{true}$}
 
-\subsubsection{\texttt{operator+} (unary, vector)}
-\begin{verbatim}
-template<typename V>
-typename unary_plus_functor<vector<V>>::result_type
-operator+(const vector<V>& v)
-{ return unary_plus_functor<vector<V>>()(v); }
-\end{verbatim}
-This library provides a specializations for \texttt{vector\textlangle V\textrangle}
-where \texttt{V::element\_type} is a floating point type.
 
-\subsubsection{\texttt{operator+=} (vector vector)}
-\begin{verbatim}
-template<typename U, typename V>
-auto
-operator-=(vector<U>& u, const vector<V>& v)
-{
-   u = u + v;
-   return u;
-}
-\end{verbatim}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{\texttt{operator-} (binary, vector vector)}
-\begin{verbatim}
-template<typename U, typename V>
-typename binary_minus_functor<vector<U>, vector<V>>::result_type
-operator-(const vector<U>& u, const vector<V>& v)
-{ return binary_minus_functor<vector<U>, vector<V>>()(u, v); }
-\end{verbatim}
-This library provides a specializations for \texttt{vector\textlangle U\textrangle}
-and \texttt{vector\textlangle V\textrangle} where
-\begin{enumerate}
-	\item \texttt{U::number\_of\_elements} is equal to \texttt{V::number\_of\_elements} and
-	\item \texttt{U::element\_type} and \texttt{V::element\_type} are floating point types.
-\end{enumerate}
+\NewDocumentCommand\ForAllVectorsAndScalars{}{for all types \texttt{V} and \texttt{S}
+with
+$\texttt{is\_vector\_v\textlangle V\textrangle} = \texttt{true}$
+and
+$\texttt{S} = \texttt{element\_type\_t\textlangle V\textrangle}$}
 
-\subsubsection{\texttt{operator-} (unary, vector)}
-\begin{verbatim}
-template<typename V>
-typename unary_minus_functor<vector<V>>::result_type
-operator-(const vector<V>& v)
-{ return unary_minus_functor<vector<V>>()(v); }
-\end{verbatim}
-This library provides a specializations for \texttt{vector\textlangle V\textrangle}
-where \texttt{V::element\_type} is a floating point type.
-
-\subsubsection{\texttt{operator-=} (vector vector)}
-\begin{verbatim}
-template<typename U, typename V>
-auto
-operator-=(vector<U>& u, const vector<V>& v)
-{
-   u = u - v;
-   return u;
-}
-\end{verbatim}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{\texttt{operator*} (binary, vector vector)}
-Computes the sum of two vectors.
-A possible implementation is
-\begin{verbatim}
-template<typename U, typename V>
-typename binary_star_functor<vector<U>, vector<V>>::result_type
-operator*(const vector<U>& u, const vector<V>& v)
-{ return binary_star_functor<vector<U>, vector<V>>()(u, v); }
-\end{verbatim}
-This library provides a specializations for \texttt{vector\textlangle U\textrangle}
-and \texttt{vector\textlangle V\textrangle} where
-\begin{enumerate}
-	\item \texttt{U::number\_of\_elements} is equal to \texttt{V::number\_of\_elements} and
-	\item \texttt{U::element\_type} and \texttt{V::element\_type} are floating point types.
-\end{enumerate}
-
-\subsubsection{\texttt{operator*=} (binary, vector vector)}
-\begin{verbatim}
-template<typename U, typename V>
-auto
-operator*=(vector<U>& u, const vector<V>& v)
-{
-   u = u * v;
-   return u;
-}
-\end{verbatim}
-
-\subsubsection{\texttt{operator*} (binary, vector scalar)}
-\begin{verbatim}
-template<typename V, typename S>
-typename binary_star_functor<vector<V>, S>::result_type
-operator*(const vector<V>& v, S s)
-{ return binary_star_functor<vector<V>, S>()(v, s); }
-\end{verbatim}
-This library provides a specializations for \texttt{vector\textlangle V\textrangle}
-and \texttt{S} where    \texttt{V::element\_type} and \texttt{S} are floating point
-types.
-
-\subsubsection{\texttt{operator*=} (binary, vector scalar)}
-\begin{verbatim}
-template<typename V, typename S>
-auto
-operator*=(vector<V>& v, S s)
-{
-   v = v * s;
-   return v;
-}
-\end{verbatim}
-
-\subsubsection{\texttt{operator*} (binary, scalar vector)}
-\begin{verbatim}
-template<typename S, typename V>
-auto
-operator*(S s, vector<V>& v)
-{
-   return s * v;
-}
-\end{verbatim}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{\texttt{operator/} (binary, vector scalar)}
-\begin{verbatim}
-template<typename V, typename S>
-typename binary_slash_functor<vector<V>, S>::result_type
-operator/(const vector<V>& v, S s)
-{ return binary_slash_functor<vector<V>, S>()(v, s); }
-\end{verbatim}
-This library provides a specializations for \texttt{vector\textlangle V\textrangle}
-and \texttt{S} where    \texttt{V::element\_type} and \texttt{S} are floating point
-types.
-
-\subsubsection{\texttt{operator/=} (binary, vector scalar)}
-\begin{verbatim}
-template<typename V, typename S>
-auto
-operator/=(vector<V>& v, S s)
-{
-   v = v / s;
-   return v;
-}
-\end{verbatim}
+\input{arithmetic}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{relational}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{\texttt{dot\_product\_functor} (struct)}
-a \textit{BinaryFunctorBase} computing the dot product of two vectors.
-A possible implementation is given by
-\begin{verbatim}
-template<typename LEFT_OPERAND, typename RIGHT_OPERAND, typename ENABLED = void>
-struct dot_product_functor;
-\end{verbatim}
-
 This library provides \textit{BinaryFunctor} specializations of this \textit{BinaryFunctorBase}
 where \texttt{LEFT\_OPERAND} and \texttt{RIGHT\_OPERAND} are specializations of \texttt{vector}
 with the same number of elements $N$. The result type \texttt{result\_type}          is\newline
@@ -288,44 +169,23 @@ with the same number of elements $N$. The result type \texttt{result\_type}     
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{\texttt{cross\_product\_functor} (struct)}
-A \textit{BinaryFunctorBase} computing the cross product of two vectors.
-A possible implementation is given by
-\begin{verbatim}
-template<typename LEFT_OPERAND, typename RIGHT_OPERAND, typename ENABLED = void>
-struct cross_product_functor;
-\end{verbatim}
-
 This library provides \textit{BinaryFunctor} specializations of this \textit{BinaryFunctorBase}
-where \texttt{LEFT\_OPERAND} and \texttt{RIGHT\_OPERAND} are specializations of \texttt{vector} with   the
-same number of elements $3$. The result type \texttt{result\_type} is  \texttt{vector\textlangle RESULT\_TRAITS\textrangle}
-where\newline
+where \texttt{LEFT\_OPERAND} and \texttt{RIGHT\_OPERAND} are specializations of \texttt{vector}
+with the same number of elements $3$. The result type \texttt{result\_type}                  is
+\texttt{vector\textlangle RESULT\_TRAITS\textrangle} where\newline
 \texttt{
 RESULT\_TRAITS:=vector\_traits\textlangle std::common\_type\_t\textlangle{}LEFT\_OPERAND\_TRAITS::element\_type,\newline%
 \hphantom{RESULT\_TRAITS:=vector\_traits\textlangle std::common\_type\_t\textlangle}RIGHT\_OPERAND\_TRAITS::element\_type\textrangle,\newline%
 \hphantom{RESULT\_TRAITS:=vector\_traits\textlangle}3\textrangle}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{\texttt{square\_euclidean\_norm\_functor} (struct)}
-A \textit{UnaryFunctorBase} computing the squared Euclidean norm of a vector.
-A possible implementation is given by
-\begin{verbatim}
-template<typename OPERAND, typename ENABLED = void>
-struct square_euclidean_norm_functor;
-\end{verbatim}
-
+\subsubsection{\texttt{squared\_euclidean\_norm\_functor} (struct)}
 This library provides \textit{UnaryFunctor} specializations of this \textit{UnaryFunctorBase}
 where \texttt{OPERAND} is specializations of \texttt{vector}. The result type        \texttt{
 result\_type} is \texttt{OPERAND\_TRAITS::element\_type\textrangle}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{\texttt{euclidean\_norm\_functor} (struct)}
-An \textit{UnaryFunctorBase} computing the Euclidean norm of a vector.
-A possible implementation is given by
-\begin{verbatim}
-template<typename OPERAND, typename ENABLED = void>
-struct euclidean_norm_functor;
-\end{verbatim}
-
 This library provides \textit{UnaryFunctor} specializations of this \textit{UnaryFunctorBase}
 where \texttt{OPERAND} is specializations of \texttt{vector}. The result type        \texttt{
 result\_type} is \texttt{OPERAND\_TRAITS::element\_type}.
@@ -379,5 +239,7 @@ Add the \textit{ParameterizedBinaryFunctor(Base) concepts.}}}
 
 \subsubsection{\texttt{are\_orthogonal} (function)}
 A \textit{BinaryFunction} computing if two vector
+
+\input{bibliography}
 
 \end{document}

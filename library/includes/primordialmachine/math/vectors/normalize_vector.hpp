@@ -25,14 +25,19 @@
 
 #pragma once
 
-#include "primordialmachine/math/vectors/vector_n.hpp"
-#include "primordialmachine/relational_functors/include.hpp"
+#include "primordialmachine/math/vectors/normalize.hpp"
+#include "primordialmachine/math/vectors/vector.hpp"
 
 namespace primordialmachine {
 
-template<typename V>
-struct not_equal_to_functor<V, V, enable_if_t<is_vector_v<V>>>
-  : public default_elementwise_not_equal_to_functor<V, V>
-{}; // struct not_equal_to_functor
+template<typename TRAITS, typename NORM>
+struct normalize_functor<vector<TRAITS>, NORM, void>
+{
+  using operand_type = vector<TRAITS>;
+  auto operator()(const operand_type& operand) const
+  {
+      return operand / NORM()(operand);
+  }
+}; // struct normalize_functor
 
 } // namespace primordialmachine

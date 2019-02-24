@@ -25,33 +25,24 @@
 
 #pragma once
 
-#include "primordialmachine/math/vectors/are_orthogonal_functor.hpp"
-#include "primordialmachine/math/vectors/dot_product_functor_vector_n.hpp"
-#include <type_traits>
+#include "primordialmachine/math/vectors/squared_euclidean_norm.hpp"
+#include "primordialmachine/math/vectors/vector.hpp"
 
 namespace primordialmachine {
 
-template<typename LEFT_OPERAND,
-         typename RIGHT_OPERAND,
-         typename EQUAL_TO_FUNCTOR>
-struct are_orthogonal_functor<
-  LEFT_OPERAND,
-  RIGHT_OPERAND,
-  EQUAL_TO_FUNCTOR,
-  enable_if_t<is_floating_point_v<element_type_t<LEFT_OPERAND>> &&
-              is_floating_point_v<element_type_t<RIGHT_OPERAND>>>>
+template<typename V>
+struct squared_euclidean_norm_functor<V, enable_if_t<is_vector_v<V>>>
 {
-  using left_operand_type = LEFT_OPERAND;
-  using right_operand_type = RIGHT_OPERAND;
-  using equal_to_functor_type = EQUAL_TO_FUNCTOR;
-  auto operator()(const left_operand_type& u,
-                  const right_operand_type& v,
-                  equal_to_functor_type equal_to_functor)
+  using operand_type = V;
+  auto operator()(const operand_type& operand) const
   {
-    // EQUAL_TO_FUNCTOR can be a relation of d == 0 e.g. abs(d) < 0.001f.
-    const auto d = dot_product(u, v);
-    return equal_to_functor(zero_functor<std::remove_cv_t<decltype(d)>>()(), d);
+    return implementation(operand, make_element_indices<V>{});
   }
-}; // struct are_orthogonal_functor
+  template<size_t... Is>
+  auto implementation(const operand_type& operand, index_sequence<Is...>) const
+  {
+    return ((operand(Is) * operand(Is)) + ...);
+  }
+}; // struct squared_euclidean_norm_functor
 
 } // namespace primordialmachine

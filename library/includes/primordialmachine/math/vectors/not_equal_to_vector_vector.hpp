@@ -25,19 +25,14 @@
 
 #pragma once
 
-#include "primordialmachine/arithmetic_functors/include.hpp"
-#include "primordialmachine/math/vectors/vector_n.hpp"
+#include "primordialmachine/math/vectors/vector.hpp"
+#include "primordialmachine/relational_functors/include.hpp"
 
 namespace primordialmachine {
 
 template<typename V>
-struct binary_star_functor<V, V, enable_if_t<is_vector_v<V>>>
-  : public default_elementwise_binary_star_functor<V, V>
-{}; // struct binary_star_functor
-
-template<typename V>
-struct star_assignment_functor<V, V, enable_if_t<is_vector_v<V>>>
-: public default_elementwise_star_assignment_functor<V, V>
-{}; // struct star_assignment_functor
+struct not_equal_to_functor<V, V, enable_if_t<is_vector_v<V>>>
+  : public default_elementwise_not_equal_to_functor<V, V>
+{}; // struct not_equal_to_functor
 
 } // namespace primordialmachine

@@ -1,0 +1,15 @@
+\subsubsection{\texttt{operator==} (binary, vector vector)}
+The equal to relation $\vec{u} = \vec{v}$ of two vector $\vec{u}=\left(u_0,u_1,\ldots,u_{n-1}\right)$
+and $\vec{v}=\left(v_0,v_1,\ldots,v_{n-1}\right)$ is defined as $\vec{u} = \vec{v} = u_0 = v_0
+\wedge u_1 = v_1 \wedge \ldots \wedge u_{n-1} = v_{n-1}$.
+%
+This library provides specializations of \texttt{equal\_to\_functor} (see \cite{relationalfunctors})
+for $\texttt{A}=\texttt{V}$, $\texttt{B}=\texttt{V}$ \ForAllVectors.
+
+\subsubsection{\texttt{operator!=} (binary, vector vector)}
+The not equal to relation $\vec{u} \neq \vec{v}$ of two vector $\vec{u}=\left(u_0,u_1,\ldots,u_{n-1}\right)$
+and $\vec{v}=\left(v_0,v_1,\ldots,v_{n-1}\right)$ is defined as $\vec{u} \neq \vec{v} = u_0 \neq v_0
+\vee u_1 \neq v_1 \vee \ldots \vee u_{n-1} \neq v_{n-1}$.
+%
+This library provides specializations of \texttt{not\_equal\_to\_functor} (see \cite{relationalfunctors})
+for $\texttt{A}=\texttt{V}$, $\texttt{B}=\texttt{V}$ \ForAllVectors.

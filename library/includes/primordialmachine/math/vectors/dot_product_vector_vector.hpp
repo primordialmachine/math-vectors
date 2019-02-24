@@ -25,14 +25,36 @@
 
 #pragma once
 
-#include "primordialmachine/math/vectors/vector_n.hpp"
-#include "primordialmachine/relational_functors/include.hpp"
+#include "primordialmachine/math/vectors/dot_product.hpp"
+#include "primordialmachine/math/vectors/vector.hpp"
+#include <type_traits>
 
 namespace primordialmachine {
 
-template<typename V>
-struct equal_to_functor<V, V, enable_if_t<is_vector_v<V>>>
-  : public default_elementwise_equal_to_functor<V, V>
-{}; // struct equal_to_functor
+template<typename LEFT_OPERAND, typename RIGHT_OPERAND>
+struct dot_product_functor<
+  LEFT_OPERAND,
+  RIGHT_OPERAND,
+  enable_if_t<is_vector_v<LEFT_OPERAND> && is_vector_v<RIGHT_OPERAND> &&
+              number_of_elements_v<LEFT_OPERAND> ==
+                number_of_elements_v<RIGHT_OPERAND>>>
+{
+  static constexpr auto number_of_elements = number_of_elements_v<LEFT_OPERAND>;
+  using left_operand_type = LEFT_OPERAND;
+  using right_operand_type = RIGHT_OPERAND;
+  auto operator()(const left_operand_type& left_operand,
+                  const right_operand_type& right_operand) const
+  {
+    return implementation(
+      left_operand, right_operand, make_index_sequence<number_of_elements>());
+  }
+  template<size_t... Is>
+  auto implementation(const left_operand_type& left_operand,
+                      const right_operand_type& right_operand,
+                      index_sequence<Is...>) const
+  {
+    return ((left_operand(Is) * right_operand(Is)) + ...);
+  }
+}; // struct dot_product_functor
 
 } // namespace primordialmachine

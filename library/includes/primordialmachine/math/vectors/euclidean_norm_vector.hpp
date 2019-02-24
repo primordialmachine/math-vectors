@@ -25,20 +25,27 @@
 
 #pragma once
 
-#include "primordialmachine/math/vectors/euclidean_norm_functor.hpp"
+#include "primordialmachine/math/vectors/euclidean_norm.hpp"
+#include "primordialmachine/math/vectors/vector.hpp"
+#include <cmath>
 
 namespace primordialmachine {
 
-template<typename OPERAND, typename NORM, typename ENABLED = void>
-struct normalize_functor;
-
-template<typename OPERAND,
-         typename NORM = euclidean_norm_functor<OPERAND>>
-auto
-normalize(const OPERAND& operand, NORM norm)
-  -> decltype(normalize_functor<OPERAND, NORM>()(operand))
+template<typename V>
+struct euclidean_norm_functor<V, enable_if_t<is_vector_v<V>>>
 {
-  return normalize_functor<OPERAND, NORM>()(operand);
-}
+  using operand_type = V;
+  auto operator()(const operand_type& operand) const
+  {
+    return implementation(operand,
+                          make_element_indices<V>{});
+  }
+  template<size_t... Is>
+  auto implementation(const operand_type& operand,
+                      index_sequence<Is...>) const
+  {
+    return square_root(((operand(Is) * operand(Is)) + ...));
+  }
+}; // struct euclidean_norm_functor
 
 } // namespace primordialmachine

@@ -25,14 +25,14 @@
 
 #pragma once
 
-#include "primordialmachine/arithmetic_functors/include.hpp"
-#include "primordialmachine/math/vectors/vector_n.hpp"
+#include "primordialmachine/math/vectors/vector.hpp"
+#include "primordialmachine/relational_functors/include.hpp"
 
 namespace primordialmachine {
 
 template<typename V>
-struct unary_plus_functor<V, enable_if_t<is_vector_v<V>>>
-  : public default_elementwise_unary_plus_functor<V>
-{}; // struct unary_plus_functor
+struct equal_to_functor<V, V, enable_if_t<is_vector_v<V>>>
+  : public default_elementwise_equal_to_functor<V, V>
+{}; // struct equal_to_functor
 
 } // namespace primordialmachine

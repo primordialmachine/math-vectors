@@ -23,42 +23,22 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "primordialmachine/math/vectors/include.hpp"
-#include "gtest/gtest.h"
+#pragma once
 
-using vector_traits = primordialmachine::vector_traits<float, 3>;
-using vector_type =
-  primordialmachine::vector<vector_traits>;
+#include "primordialmachine/math/vectors/euclidean_norm.hpp"
 
-TEST(vectors_tests, binary_slash_vector_3_vector_3_test)
+namespace primordialmachine {
+
+template<typename OPERAND, typename NORM, typename ENABLED = void>
+struct normalize_functor;
+
+template<typename OPERAND,
+         typename NORM = euclidean_norm_functor<OPERAND>>
+auto
+normalize(const OPERAND& operand, NORM norm)
+  -> decltype(normalize_functor<OPERAND, NORM>()(operand))
 {
-  using namespace primordialmachine;
-  auto result = vector_type(2.f, 2.f, 2.f) ==
-                vector_type(4.f, 4.f, 4.f) / vector_type(2.f, 2.f, 2.f);
-  ASSERT_TRUE(result);
+  return normalize_functor<OPERAND, NORM>()(operand);
 }
 
-TEST(vectors_tests, slash_assignment_vector_3_vector_3_test)
-{
-  using namespace primordialmachine;
-  auto lhs = vector_type(4.f, 4.f, 4.f);
-  lhs /= vector_type(2.f, 2.f, 2.f);
-  auto result = vector_type(2.f, 2.f, 2.f) == lhs;
-  ASSERT_TRUE(result);
-}
-
-TEST(vectors_tests, binary_slash_vector_3_scalar_test)
-{
-  using namespace primordialmachine;
-  auto result = vector_type(2.f, 2.f, 2.f) == vector_type(4.f, 4.f, 4.f) / 2.f;
-  ASSERT_TRUE(result);
-}
-
-TEST(vectors_tests, slash_assignment_vector_3_scalar_test)
-{
-  using namespace primordialmachine;
-  auto lhs = vector_type(4.f, 4.f, 4.f);
-  lhs /= 2.f;
-  auto result = vector_type(2.f, 2.f, 2.f) == lhs;
-  ASSERT_TRUE(result);
-}
+} // namespace primordialmachine

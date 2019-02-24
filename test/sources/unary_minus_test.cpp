@@ -27,22 +27,11 @@
 #include "gtest/gtest.h"
 
 using vector_traits = primordialmachine::vector_traits<float, 3>;
-using vector_type =
-  primordialmachine::vector<vector_traits>;
+using vector_type = primordialmachine::vector<vector_traits>;
 
-TEST(vectors_tests, binary_minus_vector_3_vector_3_test)
+TEST(vectors_tests, unary_minus_vector_3_test)
 {
   using namespace primordialmachine;
-  auto result = vector_type(2.f, 2.f, 2.f) ==
-                vector_type(4.f, 4.f, 4.f) - vector_type(2.f, 2.f, 2.f);
-  ASSERT_TRUE(result);
-}
-
-TEST(vectors_tests, minus_assignment_vector_3_vector_3_test)
-{
-  using namespace primordialmachine;
-  auto lhs = vector_type(4.f, 4.f, 4.f);
-  lhs -= vector_type(2.f, 2.f, 2.f);
-  auto result = vector_type(2.f, 2.f, 2.f) == lhs;
+  auto result = vector_type(-4.f, -4.f, -4.f) == -vector_type(4.f, 4.f, 4.f);
   ASSERT_TRUE(result);
 }

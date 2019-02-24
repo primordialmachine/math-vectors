@@ -23,16 +23,17 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#pragma once
+#include "primordialmachine/math/vectors/include.hpp"
+#include "gtest/gtest.h"
 
-#include "primordialmachine/arithmetic_functors/include.hpp"
-#include "primordialmachine/math/vectors/vector_n.hpp"
+using vector_traits = primordialmachine::vector_traits<float, 3>;
+using vector_type =
+  primordialmachine::vector<vector_traits>;
 
-namespace primordialmachine {
-
-template<typename V>
-struct unary_minus_functor<V, enable_if_t<is_vector_v<V>>>
-  : public default_elementwise_unary_minus_functor<V>
-{}; // struct unary_minus_functor
-
-} // namespace primordialmachine
+TEST(vectors_tests, binary_plus_vector_3_vector_3_test)
+{
+  using namespace primordialmachine;
+  auto result = vector_type(6.f, 6.f, 6.f) ==
+                vector_type(4.f, 4.f, 4.f) + vector_type(2.f, 2.f, 2.f);
+  ASSERT_TRUE(result);
+}

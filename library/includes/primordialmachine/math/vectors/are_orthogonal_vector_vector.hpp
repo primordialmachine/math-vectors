@@ -25,19 +25,34 @@
 
 #pragma once
 
-#include "primordialmachine/arithmetic_functors/include.hpp"
-#include "primordialmachine/math/vectors/vector_n.hpp"
+#include "primordialmachine/math/vectors/are_orthogonal.hpp"
+#include "primordialmachine/math/vectors/dot_product_vector_vector.hpp"
+#include "primordialmachine/one_zero_functors/include.hpp"
+#include <type_traits>
 
 namespace primordialmachine {
 
-template<typename V>
-struct binary_slash_functor<V, V, enable_if_t<is_vector_v<V>>>
-  : public default_elementwise_binary_slash_functor<V, V>
-{}; // struct binary_slash_functor
-
-template<typename V>
-struct slash_assignment_functor<V, V, enable_if_t<is_vector_v<V>>>
-: public default_elementwise_slash_assignment_functor<V, V>
-{}; // struct slash_assignment_functor
+template<typename LEFT_OPERAND,
+         typename RIGHT_OPERAND,
+         typename EQUAL_TO_FUNCTOR>
+struct are_orthogonal_functor<
+  LEFT_OPERAND,
+  RIGHT_OPERAND,
+  EQUAL_TO_FUNCTOR,
+  enable_if_t<is_floating_point_v<element_type_t<LEFT_OPERAND>> &&
+              is_floating_point_v<element_type_t<RIGHT_OPERAND>>>>
+{
+  using left_operand_type = LEFT_OPERAND;
+  using right_operand_type = RIGHT_OPERAND;
+  using equal_to_functor_type = EQUAL_TO_FUNCTOR;
+  auto operator()(const left_operand_type& u,
+                  const right_operand_type& v,
+                  equal_to_functor_type equal_to_functor)
+  {
+    // EQUAL_TO_FUNCTOR can be a relation of d == 0 e.g. abs(d) < 0.001f.
+    const auto d = dot_product(u, v);
+    return equal_to_functor(zero_functor<std::remove_cv_t<decltype(d)>>()(), d);
+  }
+}; // struct are_orthogonal_functor
 
 } // namespace primordialmachine

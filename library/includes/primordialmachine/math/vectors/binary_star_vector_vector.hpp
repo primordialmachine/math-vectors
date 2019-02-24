@@ -26,42 +26,18 @@
 #pragma once
 
 #include "primordialmachine/arithmetic_functors/include.hpp"
-#include "primordialmachine/math/scalars/include.hpp"
-#include "primordialmachine/math/vectors/vector_n.hpp"
+#include "primordialmachine/math/vectors/vector.hpp"
 
 namespace primordialmachine {
 
-template<typename V, typename S>
-struct binary_star_functor<V, S, enable_if_t<is_vector_v<V> && is_scalar_v<S>>>
-  : public default_elementwise_binary_star_functor<V, S>
+template<typename V>
+struct binary_star_functor<V, V, enable_if_t<is_vector_v<V>>>
+  : public default_elementwise_binary_star_functor<V, V>
 {}; // struct binary_star_functor
 
-template<typename V, typename S>
-struct star_assignment_functor<V,
-                               S,
-                               enable_if_t<is_vector_v<V> && is_scalar_v<S> &&
-                                           is_same_v<element_type_t<V>, S>>>
-  : public default_elementwise_star_assignment_functor<V, S>
+template<typename V>
+struct star_assignment_functor<V, V, enable_if_t<is_vector_v<V>>>
+: public default_elementwise_star_assignment_functor<V, V>
 {}; // struct star_assignment_functor
-
-template<typename S, typename V>
-struct binary_star_functor<S, V, enable_if_t<is_scalar_v<S> && is_vector_v<V>>>
-{
-  using functor =
-    elementwise_binary_functor<scalar_generator_functor<S>,
-                               V,
-                               V,
-                               number_of_elements_v<V>,
-                               binary_star_functor<S, element_type_t<V>>,
-                               void>;
-  using left_operand_type = S;
-  using right_operand_type = V;
-  using result_type = typename functor::result_type;
-  auto operator()(const left_operand_type& left_operand,
-                  const right_operand_type& right_operand) const
-  {
-    return functor()(scalar_generator_functor<S>(left_operand), right_operand);
-  }
-};
 
 } // namespace primordialmachine

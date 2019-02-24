@@ -25,27 +25,23 @@
 
 #pragma once
 
-#include "primordialmachine/math/vectors/euclidean_norm_functor.hpp"
-#include "primordialmachine/math/vectors/vector_n.hpp"
-#include <cmath>
+#include "primordialmachine/arithmetic_functors/include.hpp"
+#include "primordialmachine/math/scalars/include.hpp"
+#include "primordialmachine/math/vectors/vector.hpp"
 
 namespace primordialmachine {
 
-template<typename V>
-struct euclidean_norm_functor<V, enable_if_t<is_vector_v<V>>>
-{
-  using operand_type = V;
-  auto operator()(const operand_type& operand) const
-  {
-    return implementation(operand,
-                          make_element_indices<V>{});
-  }
-  template<size_t... Is>
-  auto implementation(const operand_type& operand,
-                      index_sequence<Is...>) const
-  {
-    return square_root(((operand(Is) * operand(Is)) + ...));
-  }
-}; // struct euclidean_norm_functor
+template<typename V, typename S>
+struct binary_slash_functor<V, S, enable_if_t<is_vector_v<V> && is_scalar_v<S>>>
+  : public default_elementwise_binary_slash_functor<V, S>
+{}; // struct binary_slash_functor
+
+template<typename V, typename S>
+struct slash_assignment_functor<V,
+                                S,
+                                enable_if_t<is_vector_v<V> && is_scalar_v<S> &&
+                                            is_same_v<element_type_t<V>, S>>>
+  : public default_elementwise_slash_assignment_functor<V, S>
+{}; // struct slash_assignment_functor
 
 } // namespace primordialmachine

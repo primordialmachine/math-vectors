@@ -23,34 +23,33 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "primordialmachine/math/vectors/include.hpp"
-#include "gtest/gtest.h"
+#pragma once
 
-using vector_traits = primordialmachine::vector_traits<float, 3>;
-using vector_type = primordialmachine::vector<vector_traits>;
+#include "primordialmachine/math/vectors/cross_product.hpp"
+#include "primordialmachine/math/vectors/vector.hpp"
 
-TEST(vectors_tests, vector_3_default_constructor_test)
+namespace primordialmachine {
+
+template<typename LEFT_OPERAND, typename RIGHT_OPERAND>
+struct cross_product_functor<
+  LEFT_OPERAND,
+  RIGHT_OPERAND,
+  enable_if_t<
+    is_vector_v<LEFT_OPERAND> && is_vector_v<RIGHT_OPERAND> &&
+    number_of_elements_v<LEFT_OPERAND> == 3 &&
+    number_of_elements_v<RIGHT_OPERAND> == 3 &&
+    is_same_v<element_type_t<LEFT_OPERAND>, element_type_t<RIGHT_OPERAND>>>>
 {
-  using namespace primordialmachine;
-  vector_type();
-}
+  using left_operand_type = LEFT_OPERAND;
+  using right_operand_type = RIGHT_OPERAND;
+  using result_type = LEFT_OPERAND;
+  result_type operator()(const left_operand_type& u,
+                         const right_operand_type& v) const
+  {
+    return result_type(u(1) * v(2) - u(2) * v(1),
+                       u(2) * v(0) - u(0) * v(2),
+                       u(0) * v(1) - u(1) * v(0));
+  }
+}; // struct cross_product_functor
 
-TEST(vectors_tests, vector_3_constructor_test)
-{
-  using namespace primordialmachine;
-  vector_type(0.f, 1.f, 2.f);
-}
-
-TEST(vectors_tests, unary_plus_vector_3_test)
-{
-  using namespace primordialmachine;
-  auto result = vector_type(4.f, 4.f, 4.f) == +vector_type(4.f, 4.f, 4.f);
-  ASSERT_TRUE(result);
-}
-
-TEST(vectors_tests, unary_minus_vector_3_test)
-{
-  using namespace primordialmachine;
-  auto result = vector_type(-4.f, -4.f, -4.f) == -vector_type(4.f, 4.f, 4.f);
-  ASSERT_TRUE(result);
-}
+} // namespace primordialmachine

@@ -57,10 +57,8 @@ namespace primordialmachine {
               CONSTRUCTOR_CONDITION_2()>
 
 template<typename TRAITS>
-struct is_vector<vector<TRAITS>>
-{
-  static constexpr bool value = true;
-};
+struct is_vector<vector<TRAITS>, STRUCT_CONDITION()> : public true_type
+{}; // struct is_vector
 
 template<typename TRAITS>
 struct vector<TRAITS, STRUCT_CONDITION()>

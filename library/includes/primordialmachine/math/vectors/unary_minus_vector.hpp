@@ -25,36 +25,14 @@
 
 #pragma once
 
-#include "primordialmachine/math/vectors/dot_product_functor.hpp"
-#include "primordialmachine/math/vectors/vector_n.hpp"
-#include <type_traits>
+#include "primordialmachine/arithmetic_functors/include.hpp"
+#include "primordialmachine/math/vectors/vector.hpp"
 
 namespace primordialmachine {
 
-template<typename LEFT_OPERAND, typename RIGHT_OPERAND>
-struct dot_product_functor<
-  LEFT_OPERAND,
-  RIGHT_OPERAND,
-  enable_if_t<is_vector_v<LEFT_OPERAND> && is_vector_v<RIGHT_OPERAND> &&
-              number_of_elements_v<LEFT_OPERAND> ==
-                number_of_elements_v<RIGHT_OPERAND>>>
-{
-  static constexpr auto number_of_elements = number_of_elements_v<LEFT_OPERAND>;
-  using left_operand_type = LEFT_OPERAND;
-  using right_operand_type = RIGHT_OPERAND;
-  auto operator()(const left_operand_type& left_operand,
-                  const right_operand_type& right_operand) const
-  {
-    return implementation(
-      left_operand, right_operand, make_index_sequence<number_of_elements>());
-  }
-  template<size_t... Is>
-  auto implementation(const left_operand_type& left_operand,
-                      const right_operand_type& right_operand,
-                      index_sequence<Is...>) const
-  {
-    return ((left_operand(Is) * right_operand(Is)) + ...);
-  }
-}; // struct dot_product_functor
+template<typename V>
+struct unary_minus_functor<V, enable_if_t<is_vector_v<V>>>
+  : public default_elementwise_unary_minus_functor<V>
+{}; // struct unary_minus_functor
 
 } // namespace primordialmachine

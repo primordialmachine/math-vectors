@@ -14,79 +14,79 @@
     <None Include="package.props" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="includes\primordialmachine\math\vectors\are_orthogonal_functor.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\are_orthogonal_functor_vector_n.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\binary_minus_functor_vector_n_vector_n.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\binary_plus_functor_vector_n_vector_n.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\binary_slash_functor_vector_n_scalar.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\binary_slash_functor_vector_n_vector_n.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\binary_star_functor_vector_n_scalar.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\binary_star_functor_vector_n_vector_n.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\cross_product_functor.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\cross_product_functor_vector_3.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\dot_product_functor.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\dot_product_functor_vector_n.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\equal_to_functor_vector_n_vector_n.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\euclidean_norm_functor.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\euclidean_norm_functor_vector_n.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="includes\primordialmachine\math\vectors\include.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\normalize_functor.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\normalize_functor_vector_n.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\not_equal_to_functor_vector_n_vector_n.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\squared_euclidean_norm_functor.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\squared_euclidean_norm_functor_vector_n.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\unary_minus_functor_vector_n.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\unary_plus_functor_vector_n.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="includes\primordialmachine\math\vectors\vector.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="includes\primordialmachine\math\vectors\vector_n.hpp">
+    <ClInclude Include="includes\primordialmachine\math\vectors\vector_default_implementation.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\dot_product.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\euclidean_norm_vector.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\binary_slash_vector_vector.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\binary_star_vector_scalar.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\euclidean_norm.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\binary_star_vector_vector.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\cross_product_vector_vector.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\binary_slash_vector_scalar.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\are_orthogonal.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\binary_minus_vector_vector.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\binary_plus_vector_vector.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\cross_product.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\normalize.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\normalize_vector.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\squared_euclidean_norm.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\not_equal_to_vector_vector.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\squared_euclidean_norm_vector.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\unary_plus_vector.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\unary_minus_vector.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\equal_to_vector_vector.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\are_orthogonal_vector_vector.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\primordialmachine\math\vectors\dot_product_vector_vector.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
