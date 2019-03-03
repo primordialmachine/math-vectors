@@ -21,6 +21,7 @@
     </BuildMacro>
     <BuildMacro Include="PackageDir">
       <Value>$(PackageDir)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
     </BuildMacro>
   </ItemGroup>
 </Project>
