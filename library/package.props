@@ -3,8 +3,6 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
     <PackageName>math-vectors</PackageName>
-    <BuildDir>$(SolutionDir)build\</BuildDir>
-    <PackageDir>$(BuildDir)packages\primordialmachine\$(PackageName)\$(PlatformTarget.toLower())\$(Configuration.toLower())\</PackageDir>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>Package</_PropertySheetDisplayName>
@@ -14,13 +12,6 @@
     <BuildMacro Include="PackageName">
       <Value>$(PackageName)</Value>
       <EnvironmentVariable>true</EnvironmentVariable>
-    </BuildMacro>
-    <BuildMacro Include="BuildDir">
-      <Value>$(BuildDir)</Value>
-      <EnvironmentVariable>true</EnvironmentVariable>
-    </BuildMacro>
-    <BuildMacro Include="PackageDir">
-      <Value>$(PackageDir)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>
