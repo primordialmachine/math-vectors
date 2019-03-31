@@ -11,7 +11,7 @@
 
 "CanonicalPackageTypeName": "library",
 "PackageTypeName" : "Library",
-"PackageVersion" : "0.8",
+"PackageVersion" : "1.1",
 
 "RepositoryUrl" : "https://github.com/primordialmachine/math-vectors",
 "Open" : "{",
